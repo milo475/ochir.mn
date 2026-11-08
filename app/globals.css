@@ -113,6 +113,11 @@ body {
 .typing-dot {
   animation: typing 1.2s ease-in-out infinite;
 }
+/* Чат демо: захиалгын карт гарч ирэх */
+@keyframes pop {
+  from { opacity: 0; transform: translateY(6px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
 
 /* Тасалбар: 2 талдаа хагас дугуй ховил (mobile-д тасархай шугамтай таарна) */
 .ticket {
