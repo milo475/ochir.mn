@@ -81,8 +81,8 @@ export const work: WorkItem[] = [
     tag: "Демо загвар",
     summary: "Онлайн дэлгүүрийн бүрэн загвар: каталог, сагс, админ.",
     image: "/work/electronics.png",
-    url: null,
-    note: "Бараа, баннер нь зохиомол — загварыг харуулах зорилготой.",
+    url: "https://web-production-5661b.up.railway.app",
+    note: "Бараа, баннер нь зохиомол. Админ панел: admin / admin — өөрчлөлт зөвхөн таны хөтөчид хадгалагдана.",
   },
 ];
 
