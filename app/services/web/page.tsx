@@ -48,7 +48,7 @@ export default function WebPage() {
                 <Link href="/order?service=web" className="btn-primary">
                   Сайт захиалах
                 </Link>
-                <a href="#work-title" className="btn-ghost">
+                <a href="#live" className="btn-ghost">
                   Жишээ ажлууд
                 </a>
               </div>
