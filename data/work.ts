@@ -1,11 +1,12 @@
 /**
  * /services/web — "Жишээ ажлууд". Зөвхөн бодит төслүүд.
+ * Дараалал: харилцагчийн төслүүд → бидний систем → демо загварууд.
  * Зураг: public/work/<slug>.png (1280×800 @2x). `url: null` бол "Үзэх" линк харагдахгүй.
  */
 export interface WorkItem {
   slug: string;
   name: string;
-  tag: "Бидний систем" | "Харилцагчийн төсөл" | "Демо загвар";
+  tag: "Харилцагчийн төсөл" | "Бидний систем" | "Демо хувилбар" | "Демо загвар";
   summary: string;
   image: string;
   url: string | null;
@@ -14,6 +15,23 @@ export interface WorkItem {
 }
 
 export const work: WorkItem[] = [
+  {
+    slug: "tofu",
+    name: "Tofu",
+    tag: "Харилцагчийн төсөл",
+    summary: "Муурны барааны онлайн дэлгүүр: каталог, сагс, QPay төлбөр, захиалгын админ.",
+    image: "/work/tofu.png",
+    url: "https://tofu.mn",
+  },
+  {
+    slug: "law-firm",
+    name: "Өмгөөллийн стратеги",
+    tag: "Харилцагчийн төсөл",
+    summary: "Хуулийн фирмийн нүүр сайт + харилцагчийн портал + админ.",
+    image: "/work/law-firm.png",
+    // Түр нуусан — домэйн (umguulugch.com) бэлэн болмогц холбоно
+    url: null,
+  },
   {
     slug: "ursgal",
     name: "ursGAL",
@@ -25,13 +43,13 @@ export const work: WorkItem[] = [
     note: "Демо: demo@ursgal.mn / Demo1234 — зөвхөн үзэх",
   },
   {
-    slug: "law-firm",
-    name: "Өмгөөллийн стратеги",
-    tag: "Харилцагчийн төсөл",
-    summary: "Хуулийн фирмийн нүүр сайт + харилцагчийн портал + админ.",
-    image: "/work/law-firm.png",
-    // Түр нуусан — домэйн (umguulugch.com) бэлэн болмогц холбоно
-    url: null,
+    slug: "shop-demo",
+    name: "Миний дэлгүүр",
+    tag: "Демо хувилбар",
+    summary: "Онлайн дэлгүүрийн бэлэн загвар: ангилал, бараа, сагс, админ самбар. Таны брэнд, бараагаар 1 өдөрт тохируулна.",
+    image: "/work/shop-demo.png",
+    url: "https://shop-demo.up.railway.app",
+    note: "Демо — захиалга бодитоор биелэхгүй",
   },
   {
     slug: "electronics",
