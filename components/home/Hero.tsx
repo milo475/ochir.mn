@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { IsometricCity } from "@/components/IsometricCity";
+import { MessengerIcon } from "@/components/SocialIcons";
+import { messengerUrl } from "@/lib/site";
 
 export function Hero() {
   return (
@@ -9,13 +11,13 @@ export function Hero() {
         className="pointer-events-none absolute -top-40 right-[-20%] h-[520px] w-[520px] rounded-full bg-accent/10 blur-[120px]"
         aria-hidden="true"
       />
-      <div className="container-page relative grid items-center gap-8 pb-12 pt-8 sm:pt-14 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:pb-20 lg:pt-16">
+      <div className="container-page relative grid items-center gap-6 pb-6 pt-8 sm:pt-14 lg:grid-cols-[1fr_1.25fr] lg:gap-6 lg:pb-10 lg:pt-12">
         <div>
           <p className="inline-flex items-center gap-2 rounded-full border border-line bg-card/70 px-3 py-1 text-xs text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Улаанбаатарын онлайн бизнест
           </p>
-          <h1 className="mt-5 text-[34px] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[56px]">
+          <h1 className="mt-5 text-[34px] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[44px] xl:text-[48px]">
             Хүргэлт, вэб, автоматжуулалт —{" "}
             <span className="text-accent">нэг багцаар</span>
           </h1>
@@ -30,9 +32,10 @@ export function Hero() {
                 <path d="M3 8h10m-4-4 4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
-            <Link href="#services" className="btn-ghost">
-              Үйлчилгээтэй танилцах
-            </Link>
+            <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+              <MessengerIcon className="h-[18px] w-[18px] text-accent" />
+              Messenger-ээр бичих
+            </a>
           </div>
           <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-line pt-6">
             {[
@@ -48,7 +51,9 @@ export function Hero() {
             ))}
           </dl>
         </div>
-        <IsometricCity />
+        <div className="lg:-mr-6 xl:-mr-20">
+          <IsometricCity />
+        </div>
       </div>
     </section>
   );

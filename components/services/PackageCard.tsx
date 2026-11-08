@@ -11,7 +11,7 @@ export function PackageCard({ pkg, compact = false }: { pkg: Package; compact?: 
       )}
       <h3 className="text-xl font-bold">{pkg.name}</h3>
       <p className="mt-1 text-sm text-muted">{pkg.tagline}</p>
-      <p className="mt-5 text-lg font-semibold text-accent">{pkg.price ?? PRICE_PLACEHOLDER}</p>
+      <p className="mt-5 text-lg font-semibold text-accent">{pkg.priceFrom ?? PRICE_PLACEHOLDER}</p>
       {!compact && (
         <ul className="mt-5 flex-1 space-y-2.5 text-[15px]">
           {pkg.features.map((feat) => (

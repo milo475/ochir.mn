@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
-import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/site";
+import { InstagramIcon, MessengerIcon } from "./SocialIcons";
+import { CONTACT_PHONE, instagramUrl, messengerUrl } from "@/lib/site";
 
 export function Footer() {
   const pathname = usePathname();
@@ -28,9 +29,23 @@ export function Footer() {
         <div>
           <p className="text-sm font-semibold">Холбоо барих</p>
           <ul className="mt-3 space-y-2 text-sm text-muted">
-            <li><a className="hover:text-ink" href={`tel:${CONTACT_PHONE.replace(/\D/g, "")}`}>{CONTACT_PHONE}</a></li>
-            <li><a className="hover:text-ink" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
-            <li>Улаанбаатар хот</li>
+            <li>
+              <a className="inline-flex items-center gap-2 hover:text-ink" href={messengerUrl} target="_blank" rel="noopener noreferrer">
+                <MessengerIcon /> Messenger
+              </a>
+            </li>
+            <li>
+              <a className="inline-flex items-center gap-2 hover:text-ink" href={instagramUrl} target="_blank" rel="noopener noreferrer">
+                <InstagramIcon /> Instagram
+              </a>
+            </li>
+            <li>
+              {CONTACT_PHONE ? (
+                <a className="hover:text-ink" href={`tel:${CONTACT_PHONE.replace(/\D/g, "")}`}>Утас: {CONTACT_PHONE}</a>
+              ) : (
+                <span>Утас: Удахгүй</span>
+              )}
+            </li>
           </ul>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { ServiceIcon } from "@/components/ServiceIcon";
 
 export function ServicesOverview() {
   return (
-    <section id="services" className="container-page scroll-mt-20 py-16 sm:py-24">
+    <section id="services" className="container-page scroll-mt-20 pb-16 pt-10 sm:pb-24 sm:pt-12">
       <SectionTitle
         eyebrow="Үйлчилгээ"
         title="Онлайн бизнест хэрэгтэй 3 үндсэн зүйл"

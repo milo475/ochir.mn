@@ -329,17 +329,24 @@ export function IsometricCity() {
         );
 
         // 2) Дэлгүүрийн дэлгэцийн гэрэл
-        master.add(gsap.to(glowRef.current, { opacity: 1, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: -1 }), 0);
+        // 3 секунд тутам нэг бүтэн анивчилт (1.5с гэрэлтэж, 1.5с бүдгэрнэ)
+        master.add(
+          gsap.fromTo(glowRef.current, { opacity: 0.45 }, { opacity: 1, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: -1 }),
+          0,
+        );
 
         // 3) Дэлгүүрээс гарах хайрцагнууд
         const boxes = boxesRef.current ? Array.from(boxesRef.current.children) : [];
-        const dx = -0.85 * C * S;
-        const dy = 0.85 * 0.5 * S;
+        // Хаалганаас (y≈3.95) мотоциклын замын төв шугам (y=5) хүртэл
+        const dist = ROAD.a - SY;
+        const dx = -dist * C * S;
+        const dy = dist * 0.5 * S;
+        const BOX_EVERY = 4; // секунд тутам нэг хайрцаг
+        const cycle = BOX_EVERY * boxes.length;
         boxes.forEach((b, i) => {
-          const tl = gsap.timeline({ repeat: -1, delay: i * 1.6, repeatDelay: 2.8 });
+          const tl = gsap.timeline({ repeat: -1, delay: i * BOX_EVERY, repeatDelay: cycle - 2.2 });
           tl.fromTo(b, { x: 0, y: 0, opacity: 0 }, { opacity: 1, duration: 0.3 })
-            .to(b, { x: dx, y: dy, duration: 1.6, ease: "power1.inOut" }, "<")
-            .to(b, { y: dy - 5, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.out" }, "-=0.9")
+            .to(b, { x: dx, y: dy, duration: 1.8, ease: "power1.inOut" }, "<")
             .to(b, { opacity: 0, duration: 0.4 });
           master.add(tl, 0);
         });
@@ -388,7 +395,7 @@ export function IsometricCity() {
   const boxSize = 0.36;
 
   return (
-    <div ref={rootRef} className="relative mx-auto w-full max-w-[640px] select-none">
+    <div ref={rootRef} className="relative mx-auto w-full max-w-[640px] select-none lg:max-w-none">
       {/* Тэнгэрт хөвөх шошгууд */}
       <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center gap-1.5 sm:gap-2" aria-hidden="true">
         {["Захиалга", "Хүргэлт", "Тооцоо"].map((label, i) => (
@@ -411,7 +418,7 @@ export function IsometricCity() {
 
       <svg
         ref={svgRef}
-        viewBox="40 60 720 560"
+        viewBox="70 64 660 554"
         className="h-auto w-full"
         role="img"
         aria-label="Улаанбаатарын жижиг хороолол: дэлгүүрээс захиалгын хайрцаг гарч, мотоциклтой хүргэлтийн ажилтан зам дагуу хүргэж байна"
@@ -424,7 +431,7 @@ export function IsometricCity() {
             <stop offset="1" stopColor="#fff" stopOpacity="0" />
           </linearGradient>
           <mask id="mt-mask">
-            <rect x="40" y="60" width="720" height="560" fill="url(#mt-fade)" />
+            <rect x="70" y="64" width="660" height="554" fill="url(#mt-fade)" />
           </mask>
         </defs>
         {/* Уулс */}
@@ -479,7 +486,7 @@ export function IsometricCity() {
 
         {/* Дэлгүүрээс гарах хайрцагнууд */}
         <g ref={boxesRef}>
-          {[0, 1, 2].map((i) => (
+          {[0, 1].map((i) => (
             <g key={i} opacity={i === 0 ? 1 : 0} transform={i === 0 ? `translate(${f(-0.5 * C * S)} ${f(0.25 * S)})` : undefined}>
               <Box x={DOOR_X - boxSize / 2} y={SY + 0.05} w={boxSize} d={boxSize} h={boxSize} top="#FF8A55" left={COL.accent} right="#C2501F" />
             </g>

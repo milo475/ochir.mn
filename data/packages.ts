@@ -1,6 +1,6 @@
 /**
- * Үйлчилгээ, багцын мэдээлэл. Үнэ нэмэх бол `price` талбарт текстээр бичнэ
- * (жишээ: "290,000₮ / сар"). `null` үед "Үнийн санал авах" гэж харагдана.
+ * Үйлчилгээ, багцын мэдээлэл. Жишиг үнийг `priceFrom` талбарт текстээр бичнэ
+ * (жишээ: "сард 150 000₮-с"). `null` үед "Үнийн санал авах" / "Үнэ авах" гэж харагдана.
  */
 
 export type ServiceSlug = "delivery" | "web" | "automation";
@@ -11,7 +11,8 @@ export interface Package {
   name: string;
   tagline: string;
   features: string[];
-  price: string | null;
+  /** Жишиг "-с эхлэх" үнэ; null бол үнийн санал авна */
+  priceFrom: string | null;
   highlight?: boolean;
 }
 
@@ -96,7 +97,7 @@ export const packages: Package[] = [
     name: "Эхлэл",
     tagline: "Дөнгөж эхэлж буй дэлгүүрт",
     features: ["Өдөрт 5 хүртэл захиалга", "Долоо хоног бүр тооцоо", "Хот доторх хүргэлт", "Утас, чатаар захиалга өгөх"],
-    price: null,
+    priceFrom: "сард 150 000₮-с",
   },
   {
     id: "delivery-growth",
@@ -104,7 +105,7 @@ export const packages: Package[] = [
     name: "Өсөлт",
     tagline: "Тогтмол борлуулалттай бизнест",
     features: ["Хязгааргүй захиалга", "Өдөр бүр тооцоо", "Захиалгын портал", "Хүргэлтийн явцыг хянах"],
-    price: null,
+    priceFrom: null,
     highlight: true,
   },
   {
@@ -113,7 +114,7 @@ export const packages: Package[] = [
     name: "Бүрэн",
     tagline: "Агуулахаа ч бидэнд даатга",
     features: ["Өсөлт багцын бүх боломж", "Агуулахын бүртгэл", "Харилцагчид SMS мэдэгдэл", "Сарын тайлан"],
-    price: null,
+    priceFrom: null,
   },
   // Вэб
   {
@@ -122,7 +123,7 @@ export const packages: Package[] = [
     name: "Landing",
     tagline: "Хурдан эхлэх нэг хуудас",
     features: ["1 хуудастай сайт", "3 хоногт хүлээлгэн өгнө", "Гар утсанд тохирсон", "Домэйн, хостинг тохиргоо"],
-    price: null,
+    priceFrom: null,
   },
   {
     id: "web-shop",
@@ -130,7 +131,7 @@ export const packages: Package[] = [
     name: "Онлайн дэлгүүр",
     tagline: "Онлайнаар зарж, төлбөр авна",
     features: ["Барааны каталог", "Сагс, захиалга", "QPay төлбөрийн холболт", "Админ самбар"],
-    price: null,
+    priceFrom: null,
     highlight: true,
   },
   {
@@ -139,7 +140,7 @@ export const packages: Package[] = [
     name: "Систем",
     tagline: "Дотоод ажлаа цэгцэл",
     features: ["Захиалгын систем", "Агуулахын бүртгэл", "Тайлан, статистик", "Ажилтны эрхийн тохиргоо"],
-    price: null,
+    priceFrom: null,
   },
   // Автоматжуулалт
   {
@@ -148,7 +149,7 @@ export const packages: Package[] = [
     name: "Чат бот",
     tagline: "Messenger-т автомат хариулт",
     features: ["FB/IG messenger автомат хариулт", "24/7 түгээмэл асуултад хариулна", "Бараа, үнийн мэдээлэл өгнө", "Оператор руу шилжүүлнэ"],
-    price: null,
+    priceFrom: null,
   },
   {
     id: "auto-robot",
@@ -156,7 +157,7 @@ export const packages: Package[] = [
     name: "Захиалгын робот",
     tagline: "Чатаас шууд бүртгэл",
     features: ["Чатаас захиалгыг автоматаар таньна", "Google Sheet эсвэл системд бүртгэнэ", "Хүргэлт рүү шууд дамжуулна", "Өдрийн тайлан"],
-    price: null,
+    priceFrom: null,
     highlight: true,
   },
 ];

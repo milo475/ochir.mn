@@ -269,7 +269,7 @@ export function OrderWizard() {
                                     </li>
                                   ))}
                                 </ul>
-                                <span className="mt-3 text-xs font-semibold text-accent">{p.price ?? PRICE_PLACEHOLDER}</span>
+                                <span className="mt-3 text-xs font-semibold text-accent">{p.priceFrom ?? PRICE_PLACEHOLDER}</span>
                               </label>
                             );
                           })}
@@ -323,7 +323,7 @@ export function OrderWizard() {
                     const p = getPackage(chosen[slug] ?? "");
                     return (
                       <Row key={slug} label={services.find((s) => s.slug === slug)!.title} onEdit={() => go(1)}>
-                        {p?.name} <span className="text-muted">· {p?.price ?? PRICE_PLACEHOLDER}</span>
+                        {p?.name} <span className="text-muted">· {p?.priceFrom ?? PRICE_PLACEHOLDER}</span>
                       </Row>
                     );
                   })}

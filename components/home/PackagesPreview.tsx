@@ -34,9 +34,9 @@ export function PackagesPreview() {
                   <Link
                     href={`/order?service=${s.slug}&package=${p.id}`}
                     className="shrink-0 rounded-lg border border-line px-3 py-2 text-xs font-semibold text-ink transition-colors hover:border-accent hover:text-accent"
-                    aria-label={`${s.title}: ${p.name} багц — ${PRICE_PLACEHOLDER}`}
+                    aria-label={`${s.title}: ${p.name} багц — ${p.priceFrom ?? PRICE_PLACEHOLDER}`}
                   >
-                    {p.price ?? "Үнэ авах"}
+                    {p.priceFrom ?? "Үнэ авах"}
                   </Link>
                 </li>
               ))}
