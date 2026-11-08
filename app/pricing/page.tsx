@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { PricingTabs } from "@/components/pricing/PricingTabs";
-import { TrialTicket } from "@/components/TrialTicket";
 import { serviceSlugs, type ServiceSlug } from "@/data/packages";
 
 const description = "Хүргэлт, вэб сайт, AI автоматжуулалтын багцуудыг хажуу хажуугаар нь харьцуулж, бизнестээ тохирохыг сонгоорой.";
@@ -32,7 +31,6 @@ export default function PricingPage({ searchParams }: { searchParams: { tab?: st
           </div>
         </div>
       </section>
-      <TrialTicket />
     </>
   );
 }

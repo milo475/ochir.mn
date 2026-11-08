@@ -119,31 +119,3 @@ body {
   to { opacity: 1; transform: none; }
 }
 
-/* Тасалбар: 2 талдаа хагас дугуй ховил (mobile-д тасархай шугамтай таарна) */
-.ticket {
-  filter: drop-shadow(0 24px 40px rgba(255, 107, 44, 0.22));
-}
-.ticket-body {
-  --ny: 120px;
-  --r: 16px;
-  border-radius: 20px;
-  -webkit-mask: radial-gradient(circle var(--r) at 0 var(--ny), #0000 97%, #000 100%),
-    radial-gradient(circle var(--r) at 100% var(--ny), #0000 97%, #000 100%);
-  -webkit-mask-composite: source-in;
-  mask: radial-gradient(circle var(--r) at 0 var(--ny), #0000 97%, #000 100%),
-    radial-gradient(circle var(--r) at 100% var(--ny), #0000 97%, #000 100%);
-  mask-composite: intersect;
-}
-.ticket-stub {
-  height: var(--ny);
-}
-@media (min-width: 640px) {
-  .ticket-body {
-    --ny: 50%;
-  }
-  .ticket-stub {
-    height: auto;
-    padding-top: 2.25rem;
-    padding-bottom: 2.25rem;
-  }
-}

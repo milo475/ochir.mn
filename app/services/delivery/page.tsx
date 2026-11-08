@@ -4,7 +4,6 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { Cta } from "@/components/Cta";
 import { PackageMini } from "@/components/PackageMini";
 import { ServiceFaq } from "@/components/ServiceFaq";
-import { TrialTicket } from "@/components/TrialTicket";
 import { CoverageMap } from "@/components/delivery/CoverageMap";
 import { DeliveryJourney } from "@/components/delivery/DeliveryJourney";
 import { IsometricDelivery } from "@/components/delivery/IsometricDelivery";
@@ -57,7 +56,6 @@ export default function DeliveryPage() {
       <ReportSample />
       <PackageMini service="delivery" title="Хүргэлтийн багц" />
       <ServiceFaq category="delivery" title="Хүргэлтийн асуулт" />
-      <TrialTicket />
       <Cta title="Маргаашийн захиалгаа бидэнд даатга" text="Захиалга илгээгээд 24 цагийн дотор холбогдоно." href="/order?service=delivery" />
     </>
   );
