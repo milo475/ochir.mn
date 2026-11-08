@@ -1,0 +1,30 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  NEW
+  CONTACTED
+  ACTIVE
+  CLOSED
+}
+
+model Order {
+  id           String      @id @default(cuid())
+  services     String[]
+  packages     String[]
+  businessName String
+  socialLink   String
+  phone        String
+  dailyOrders  Int?
+  status       OrderStatus @default(NEW)
+  createdAt    DateTime    @default(now())
+
+  @@index([status, createdAt])
+}
