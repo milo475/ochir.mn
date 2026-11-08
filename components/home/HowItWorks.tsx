@@ -56,7 +56,7 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section className="border-y border-line bg-card/30 py-16 sm:py-24">
+    <section className="mt-16 border-y border-line bg-card/30 py-16 sm:mt-24 sm:py-20">
       <div className="container-page">
         <SectionTitle eyebrow="Хэрхэн ажилладаг" title="3 алхамд эхэлнэ" center />
         <div ref={ref} className="relative mx-auto mt-12 max-w-4xl">

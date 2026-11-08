@@ -4,7 +4,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 
 export function Faq() {
   return (
-    <section id="faq" className="container-page scroll-mt-20 py-16 sm:py-24">
+    <section id="faq" className="container-page mt-16 scroll-mt-24 sm:mt-24">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
         <SectionTitle eyebrow="FAQ" title="Түгээмэл асуулт" text="Өөр асуулт байвал захиалгын маягтад бичээрэй — бид залгаж тайлбарлана." />
         <Reveal className="divide-y divide-line rounded-2xl border border-line bg-card">

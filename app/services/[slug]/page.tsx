@@ -7,7 +7,6 @@ import { Reveal } from "@/components/Reveal";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { Cta } from "@/components/home/Cta";
-import { TrialOffer } from "@/components/TrialOffer";
 
 export const dynamicParams = false;
 
@@ -56,8 +55,6 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
           </Reveal>
         </div>
       </section>
-
-      {service.slug === "delivery" && <TrialOffer className="pt-10" />}
 
       <section className="container-page py-16">
         <div className="grid gap-4 md:grid-cols-3">

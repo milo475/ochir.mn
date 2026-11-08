@@ -235,6 +235,29 @@ const roadPathD = (() => {
 })();
 const BIKE_START = pr(8.5, ROAD.b);
 
+/* Захиалгын "тасалбар" — хотын доод ирмэгээс дэлгүүр рүү орно (0,0 = төв) */
+function OrderTicket() {
+  return (
+    <g>
+      <rect x="-30" y="-12" width="60" height="24" rx="4" fill={COL.text} />
+      <path d="M-30-8a4 4 0 0 1 4-4h8v24h-8a4 4 0 0 1-4-4z" fill={COL.accent} />
+      <line x1="-18" y1="-10" x2="-18" y2="10" stroke={COL.sky} strokeOpacity=".35" strokeDasharray="2 2" />
+      <circle cx="-18" cy="-12" r="2.4" fill={COL.sky} />
+      <circle cx="-18" cy="12" r="2.4" fill={COL.sky} />
+      <text x="-13" y="-1" fontSize="7.5" fontWeight="800" fill={COL.sky} fontFamily="var(--font-inter), system-ui, sans-serif">
+        Захиалга
+      </text>
+      <rect x="-13" y="3.5" width="24" height="3" rx="1.5" fill={COL.muted} />
+      <circle cx="23" cy="-4" r="2.6" fill={COL.accent} />
+    </g>
+  );
+}
+const TICKET_STARTS: [number, number][] = [
+  [452, 588],
+  [520, 594],
+  [588, 588],
+];
+
 /* Дэлгүүр */
 const SHOP = { x: 5.4, y: 1.7, w: 3.2, d: 2.2, h: 2.2 };
 const SY = SHOP.y + SHOP.d; // урд нүүрний хавтгай
@@ -300,6 +323,7 @@ export function IsometricCity() {
   const pathRef = useRef<SVGPathElement>(null);
   const glowRef = useRef<SVGGElement>(null);
   const boxesRef = useRef<SVGGElement>(null);
+  const ticketsRef = useRef<SVGGElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -355,6 +379,20 @@ export function IsometricCity() {
           tl.fromTo(b, { x: 0, y: 0, opacity: 0 }, { opacity: 1, duration: 0.3 })
             .to(b, { x: dx, y: dy, duration: 1.8, ease: "power1.inOut" }, "<")
             .to(b, { opacity: 0, duration: 0.4 });
+          master.add(tl, 0);
+        });
+
+        // 3b) Захиалгын тасалбарууд: 4 секунд тутамд нэг нь доод ирмэгээс гарч дэлгүүр рүү орно
+        const tickets = ticketsRef.current ? Array.from(ticketsRef.current.children) : [];
+        const [ex, ey] = pr(DOOR_X, SY + 0.15, 0.7);
+        const TICKET_EVERY = 4;
+        tickets.forEach((t, i) => {
+          const [sx, sy] = TICKET_STARTS[i] ?? TICKET_STARTS[0]!;
+          const inner = t.firstElementChild;
+          const tl = gsap.timeline({ repeat: -1, delay: i * TICKET_EVERY, repeatDelay: TICKET_EVERY * tickets.length - 3.1 });
+          tl.fromTo(inner, { x: 0, y: 14, scale: 1, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out", transformOrigin: "50% 50%" })
+            .to(inner, { x: ex - sx, y: ey - sy, scale: 0.3, duration: 2.2, ease: "power2.inOut" }, "+=0.4")
+            .to(inner, { opacity: 0, duration: 0.35, ease: "power1.in" }, "-=0.35");
           master.add(tl, 0);
         });
 
@@ -508,6 +546,17 @@ export function IsometricCity() {
               <Courier />
             </g>
           </g>
+        </g>
+
+        {/* Захиалгын тасалбарууд (хөдөлгөөнгүй горимд эхнийх нь л харагдана) */}
+        <g ref={ticketsRef}>
+          {TICKET_STARTS.map(([x, y], i) => (
+            <g key={i} transform={`translate(${x} ${y})`}>
+              <g opacity={i === 1 ? 1 : 0}>
+                <OrderTicket />
+              </g>
+            </g>
+          ))}
         </g>
       </svg>
     </div>

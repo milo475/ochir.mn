@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
 
 const nav = [
+  { href: "/", label: "Нүүр" },
   { href: "/services/delivery", label: "Хүргэлт" },
   { href: "/services/web", label: "Вэб & систем" },
   { href: "/services/automation", label: "AI автоматжуулалт" },
@@ -42,7 +43,10 @@ export function Header() {
             <Link
               key={n.href}
               href={n.href}
-              className={`transition-colors hover:text-ink ${pathname === n.href ? "text-ink" : ""}`}
+              aria-current={pathname === n.href ? "page" : undefined}
+              className={`border-b-2 py-1 transition-colors hover:text-ink ${
+                pathname === n.href ? "border-accent text-ink" : "border-transparent"
+              }`}
             >
               {n.label}
             </Link>
@@ -69,7 +73,14 @@ export function Header() {
       {open && (
         <nav id="mobile-nav" className="container-page grid gap-1 pb-4 lg:hidden" aria-label="Гар утасны цэс">
           {nav.map((n) => (
-            <Link key={n.href} href={n.href} className="rounded-xl px-3 py-3 text-[15px] text-ink hover:bg-card">
+            <Link
+              key={n.href}
+              href={n.href}
+              aria-current={pathname === n.href ? "page" : undefined}
+              className={`rounded-xl border-l-2 px-3 py-3 text-[15px] hover:bg-card ${
+                pathname === n.href ? "border-accent bg-card text-ink" : "border-transparent text-ink/90"
+              }`}
+            >
               {n.label}
             </Link>
           ))}

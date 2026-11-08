@@ -6,12 +6,8 @@ import { ServiceIcon } from "@/components/ServiceIcon";
 
 export function PackagesPreview() {
   return (
-    <section className="container-page py-16 sm:py-24">
-      <SectionTitle
-        eyebrow="Багцууд"
-        title="Хэмжээндээ тохирсон багцаа сонго"
-        text="Үнэ таны захиалгын тоо, хэрэгцээнээс хамаарна. Сонгоод илгээхэд бид үнийн санал явуулна."
-      />
+    <section className="container-page mt-16 sm:mt-24">
+      <SectionTitle title="Багц" />
       <div className="mt-10 grid gap-4 lg:grid-cols-3">
         {services.map((s, i) => (
           <Reveal key={s.slug} delay={i * 0.08} className="card tilt flex min-w-0 flex-col p-6">

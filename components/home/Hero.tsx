@@ -11,7 +11,7 @@ export function Hero() {
         className="pointer-events-none absolute -top-40 right-[-20%] h-[520px] w-[520px] rounded-full bg-accent/10 blur-[120px]"
         aria-hidden="true"
       />
-      <div className="container-page relative grid items-center gap-6 pb-6 pt-8 sm:pt-14 lg:grid-cols-[1fr_1.25fr] lg:gap-6 lg:pb-10 lg:pt-12">
+      <div className="container-page relative grid items-center gap-6 pb-0 pt-8 sm:pt-14 lg:grid-cols-[1fr_1.25fr] lg:gap-6 lg:pt-12">
         <div>
           <p className="inline-flex items-center gap-2 rounded-full border border-line bg-card/70 px-3 py-1 text-xs text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -37,19 +37,10 @@ export function Hero() {
               Messenger-ээр бичих
             </a>
           </div>
-          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-line pt-6">
-            {[
-              ["24ц", "дотор холбогдоно"],
-              ["3 хоног", "Landing хуудас"],
-              ["24/7", "чатбот хариулт"],
-            ].map(([v, l]) => (
-              <div key={l}>
-                <dt className="sr-only">{l}</dt>
-                <dd className="text-xl font-bold sm:text-2xl">{v}</dd>
-                <dd className="mt-1 text-xs leading-snug text-muted">{l}</dd>
-              </div>
-            ))}
-          </dl>
+          <p className="mt-10 flex items-center gap-2 text-sm text-muted">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+            Улаанбаатар · Instagram, Facebook дэлгүүрүүдэд зориулав
+          </p>
         </div>
         <div className="lg:-mr-6 xl:-mr-20">
           <IsometricCity />

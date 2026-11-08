@@ -23,8 +23,9 @@ export function Footer() {
           <p className="mt-6 text-xs text-muted">© {new Date().getFullYear()} Ochir</p>
         </div>
         <div>
-          <p className="text-sm font-semibold">Үйлчилгээ</p>
+          <p className="text-sm font-semibold">Цэс</p>
           <ul className="mt-3 space-y-2 text-sm text-muted">
+            <li><Link className="hover:text-ink" href="/">Нүүр</Link></li>
             <li><Link className="hover:text-ink" href="/services/delivery">Хүргэлт</Link></li>
             <li><Link className="hover:text-ink" href="/services/web">Вэб сайт & систем</Link></li>
             <li><Link className="hover:text-ink" href="/services/automation">AI автоматжуулалт</Link></li>
