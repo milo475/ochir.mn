@@ -30,7 +30,8 @@ export const work: WorkItem[] = [
     tag: "Харилцагчийн төсөл",
     summary: "Хуулийн фирмийн нүүр сайт + харилцагчийн портал + админ.",
     image: "/work/law-firm.png",
-    url: "https://web-production-1bbc4.up.railway.app",
+    // Түр нуусан — домэйн (umguulugch.com) бэлэн болмогц холбоно
+    url: null,
   },
   {
     slug: "electronics",
