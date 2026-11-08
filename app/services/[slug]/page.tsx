@@ -6,12 +6,13 @@ import { PackageCard } from "@/components/services/PackageCard";
 import { Reveal } from "@/components/Reveal";
 import { SectionTitle } from "@/components/SectionTitle";
 import { ServiceIcon } from "@/components/ServiceIcon";
-import { Cta } from "@/components/home/Cta";
+import { Cta } from "@/components/Cta";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return serviceSlugs.map((slug) => ({ slug }));
+  // delivery нь өөрийн тусдаа хуудастай
+  return serviceSlugs.filter((slug) => slug !== "delivery").map((slug) => ({ slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {

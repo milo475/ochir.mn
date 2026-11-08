@@ -183,3 +183,133 @@ export function packagesFor(slug: ServiceSlug): Package[] {
 export function getPackage(id: string): Package | undefined {
   return packages.find((p) => p.id === id);
 }
+
+/* ------------------------------------------------------------------ */
+/* /pricing — харьцуулах хүснэгт ба "Аль нь надад тохирох вэ?" сонгогч   */
+/* ------------------------------------------------------------------ */
+
+/** true = ✓, false = —, string = тухайн утга */
+export type CompareCell = boolean | string;
+
+export interface CompareRow {
+  label: string;
+  /** packagesFor(service)-ийн дарааллаар */
+  values: CompareCell[];
+}
+
+export const compareRows: Record<ServiceSlug, CompareRow[]> = {
+  delivery: [
+    { label: "Захиалгын хязгаар", values: ["Өдөрт 5 хүртэл", "Хязгааргүй", "Хязгааргүй"] },
+    { label: "Тайлангийн давтамж", values: ["7 хоног бүр", "Өдөр бүр", "Өдөр бүр + сарын"] },
+    { label: "Хот доторх хүргэлт", values: [true, true, true] },
+    { label: "Утас, чатаар захиалга өгөх", values: [true, true, true] },
+    { label: "Захиалгын портал", values: [false, true, true] },
+    { label: "Хүргэлтийн явцыг хянах", values: [false, true, true] },
+    { label: "Харилцагчид SMS мэдэгдэл", values: [false, false, true] },
+    { label: "Агуулахын бүртгэл", values: [false, false, true] },
+    { label: "Дэмжлэгийн цаг", values: ["Ажлын өдөр 10–18", "Өдөр бүр 09–21", "Өдөр бүр 09–21"] },
+  ],
+  web: [
+    { label: "Хуудасны тоо", values: ["1", "Хязгааргүй", "Хэрэгцээгээр"] },
+    { label: "Хүлээлгэн өгөх хугацаа", values: ["3 ажлын өдөр", "2–3 долоо хоног", "Тохиролцоно"] },
+    { label: "Гар утсанд тохирсон", values: [true, true, true] },
+    { label: "Домэйн, хостинг тохиргоо", values: [true, true, true] },
+    { label: "Барааны каталог, сагс", values: [false, true, false] },
+    { label: "QPay төлбөрийн холболт", values: [false, true, true] },
+    { label: "Админ самбар", values: [false, true, true] },
+    { label: "Агуулахын бүртгэл", values: [false, false, true] },
+    { label: "Тайлан, статистик", values: [false, "Энгийн", true] },
+    { label: "Ажилтны эрхийн тохиргоо", values: [false, false, true] },
+  ],
+  automation: [
+    { label: "FB/IG messenger автомат хариулт", values: [true, true] },
+    { label: "24/7 түгээмэл асуултад хариулна", values: [true, true] },
+    { label: "Бараа, үнийн мэдээлэл", values: [true, true] },
+    { label: "Оператор руу шилжүүлэх", values: [true, true] },
+    { label: "Чатаас захиалга таних", values: [false, true] },
+    { label: "Google Sheets / системд бүртгэх", values: [false, true] },
+    { label: "Хүргэлт рүү шууд дамжуулах", values: [false, true] },
+    { label: "Өдрийн тайлан", values: [false, true] },
+  ],
+};
+
+export interface PickerQuestion {
+  q: string;
+  /** Хариулт бүр багц (id) руу оноо нэмнэ */
+  options: { label: string; scores: Record<string, number> }[];
+}
+
+export const pickerQuestions: Record<ServiceSlug, PickerQuestion[]> = {
+  delivery: [
+    {
+      q: "Өдөрт хэдэн захиалга ирдэг вэ?",
+      options: [
+        { label: "5 хүртэл", scores: { "delivery-start": 2 } },
+        { label: "6–20", scores: { "delivery-growth": 2 } },
+        { label: "20-оос дээш", scores: { "delivery-growth": 1, "delivery-full": 2 } },
+      ],
+    },
+    {
+      q: "Өөрийн жолоочтой юу?",
+      options: [
+        { label: "Тийм, заримдаа тусламж хэрэгтэй", scores: { "delivery-start": 1 } },
+        { label: "Үгүй, бүгдийг даатгана", scores: { "delivery-growth": 1, "delivery-full": 1 } },
+      ],
+    },
+    {
+      q: "Тайлан хэр олон хэрэгтэй вэ?",
+      options: [
+        { label: "Долоо хоногт нэг", scores: { "delivery-start": 1 } },
+        { label: "Өдөр бүр", scores: { "delivery-growth": 1 } },
+        { label: "Өдөр бүр + агуулахын үлдэгдэл", scores: { "delivery-full": 2 } },
+      ],
+    },
+  ],
+  web: [
+    {
+      q: "Сайтаар юу хиймээр байна?",
+      options: [
+        { label: "Бизнесээ танилцуулах", scores: { "web-landing": 2 } },
+        { label: "Онлайнаар зарах", scores: { "web-shop": 2 } },
+        { label: "Дотоод ажлаа цэгцлэх", scores: { "web-system": 2 } },
+      ],
+    },
+    {
+      q: "Хэдэн төрлийн бараатай вэ?",
+      options: [
+        { label: "Цөөн / бараагүй", scores: { "web-landing": 1 } },
+        { label: "20-оос олон", scores: { "web-shop": 1, "web-system": 1 } },
+      ],
+    },
+    {
+      q: "Хэдэн хүн системд ажиллах вэ?",
+      options: [
+        { label: "Зөвхөн би", scores: { "web-landing": 1, "web-shop": 1 } },
+        { label: "Хэд хэдэн ажилтан", scores: { "web-system": 2 } },
+      ],
+    },
+  ],
+  automation: [
+    {
+      q: "Өдөрт хэдэн чат ирдэг вэ?",
+      options: [
+        { label: "30 хүртэл", scores: { "auto-chatbot": 1 } },
+        { label: "30-аас дээш", scores: { "auto-robot": 1 } },
+      ],
+    },
+    {
+      q: "Захиалгаа одоо хаана бүртгэдэг вэ?",
+      options: [
+        { label: "Бүртгэдэггүй / дэвтэрт", scores: { "auto-chatbot": 1 } },
+        { label: "Excel, Sheets-д гараар", scores: { "auto-robot": 2 } },
+      ],
+    },
+    {
+      q: "Захиалгыг хүргэлт рүү шууд дамжуулах уу?",
+      options: [
+        { label: "Хэрэггүй", scores: { "auto-chatbot": 1 } },
+        { label: "Тийм", scores: { "auto-robot": 2 } },
+      ],
+    },
+  ],
+};

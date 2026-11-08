@@ -4,14 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
+import { isActive, mainNav as nav } from "@/lib/nav";
 
-const nav = [
-  { href: "/", label: "Нүүр" },
-  { href: "/services/delivery", label: "Хүргэлт" },
-  { href: "/services/web", label: "Вэб & систем" },
-  { href: "/services/automation", label: "AI автоматжуулалт" },
-  { href: "/#faq", label: "Түгээмэл асуулт" },
-];
 
 export function Header() {
   const pathname = usePathname();
@@ -38,14 +32,14 @@ export function Header() {
         <Link href="/" aria-label="Ochir нүүр хуудас">
           <Logo />
         </Link>
-        <nav className="hidden items-center gap-7 text-sm text-muted lg:flex" aria-label="Үндсэн цэс">
+        <nav className="hidden items-center gap-6 text-sm xl:gap-7 text-muted lg:flex" aria-label="Үндсэн цэс">
           {nav.map((n) => (
             <Link
               key={n.href}
               href={n.href}
-              aria-current={pathname === n.href ? "page" : undefined}
+              aria-current={isActive(pathname, n.href) ? "page" : undefined}
               className={`border-b-2 py-1 transition-colors hover:text-ink ${
-                pathname === n.href ? "border-accent text-ink" : "border-transparent"
+                isActive(pathname, n.href) ? "border-accent text-ink" : "border-transparent"
               }`}
             >
               {n.label}
@@ -76,9 +70,9 @@ export function Header() {
             <Link
               key={n.href}
               href={n.href}
-              aria-current={pathname === n.href ? "page" : undefined}
+              aria-current={isActive(pathname, n.href) ? "page" : undefined}
               className={`rounded-xl border-l-2 px-3 py-3 text-[15px] hover:bg-card ${
-                pathname === n.href ? "border-accent bg-card text-ink" : "border-transparent text-ink/90"
+                isActive(pathname, n.href) ? "border-accent bg-card text-ink" : "border-transparent text-ink/90"
               }`}
             >
               {n.label}

@@ -6,7 +6,8 @@ export const size = OG_SIZE;
 export const contentType = "image/png";
 
 export function generateStaticParams() {
-  return serviceSlugs.map((slug) => ({ slug }));
+  // delivery нь өөрийн тусдаа хуудастай
+  return serviceSlugs.filter((slug) => slug !== "delivery").map((slug) => ({ slug }));
 }
 
 export default function Image({ params }: { params: { slug: string } }) {

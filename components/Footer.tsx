@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { InstagramIcon, MessengerIcon } from "./SocialIcons";
+import { isActive, mainNav as nav } from "@/lib/nav";
 import { instagramHandle, instagramUrl, messengerUrl, phone, phoneHref } from "@/lib/site";
 
 export function Footer() {
@@ -25,10 +26,13 @@ export function Footer() {
         <div>
           <p className="text-sm font-semibold">Цэс</p>
           <ul className="mt-3 space-y-2 text-sm text-muted">
-            <li><Link className="hover:text-ink" href="/">Нүүр</Link></li>
-            <li><Link className="hover:text-ink" href="/services/delivery">Хүргэлт</Link></li>
-            <li><Link className="hover:text-ink" href="/services/web">Вэб сайт & систем</Link></li>
-            <li><Link className="hover:text-ink" href="/services/automation">AI автоматжуулалт</Link></li>
+            {nav.map((n) => (
+              <li key={n.href}>
+                <Link className="hover:text-ink" href={n.href} aria-current={isActive(pathname, n.href) ? "page" : undefined}>
+                  {n.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div>

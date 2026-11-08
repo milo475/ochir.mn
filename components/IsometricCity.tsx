@@ -1,436 +1,11 @@
 "use client";
 
-import { useEffect, useRef, type Ref, type RefObject } from "react";
-
-/* ------------------------------------------------------------------ */
-/* Изометрик проекц — 1200×560                                         */
-/* ------------------------------------------------------------------ */
-const S = 25;
-const C = 0.8660254;
-const OX = 600;
-const OY = 4;
-const VB_W = 1200;
-const VB_H = 560;
-
-type P3 = [number, number, number];
-
-function pr(x: number, y: number, z = 0): [number, number] {
-  return [OX + (x - y) * C * S, OY + (x + y) * 0.5 * S - z * S];
-}
-const f = (n: number) => Math.round(n * 10) / 10;
-function poly(pts: P3[]): string {
-  return pts.map(([x, y, z]) => pr(x, y, z).map(f).join(",")).join(" ");
-}
-function pathD(pts: [number, number, number?][], close = false): string {
-  return pts.map(([x, y, z], i) => `${i ? "L" : "M"}${pr(x, y, z ?? 0).map(f).join(",")}`).join(" ") + (close ? " Z" : "");
-}
-
-const COL = {
-  sky: "#0B1220",
-  ground: "#101A31",
-  groundL: "#0D152A",
-  groundR: "#0A1122",
-  far: "#0D1529",
-  road: "#172239",
-  walk: "#1B2843",
-  plaza: "#122039",
-  top: "#26334F",
-  left: "#1B2744",
-  right: "#131D35",
-  win: "#0E1628",
-  lit: "#FFB088",
-  litR: "#E8935F",
-  accent: "#FF6B2C",
-  accentDark: "#C2501F",
-  text: "#F5F7FA",
-  muted: "#9AA5B8",
-  line: "#33415F",
-};
-
-/* ------------------------------------------------------------------ */
-/* Үндсэн дүрсүүд                                                       */
-/* ------------------------------------------------------------------ */
-interface BoxProps {
-  x: number;
-  y: number;
-  z?: number;
-  w: number;
-  d: number;
-  h: number;
-  top?: string;
-  left?: string;
-  right?: string;
-}
-function Box({ x, y, z = 0, w, d, h, top = COL.top, left = COL.left, right = COL.right }: BoxProps) {
-  return (
-    <g>
-      <polygon points={poly([[x, y + d, z], [x + w, y + d, z], [x + w, y + d, z + h], [x, y + d, z + h]])} fill={left} />
-      <polygon points={poly([[x + w, y, z], [x + w, y + d, z], [x + w, y + d, z + h], [x + w, y, z + h]])} fill={right} />
-      <polygon points={poly([[x, y, z + h], [x + w, y, z + h], [x + w, y + d, z + h], [x, y + d, z + h]])} fill={top} />
-    </g>
-  );
-}
-
-/** Барилга + цонх (детерминист гэрэл) */
-function Building({ x, y, w, d, h, seed }: BoxProps & { seed: number }) {
-  const ww = 0.36;
-  const wh = 0.4;
-  const gap = 0.4;
-  const floors: number[] = [];
-  for (let z = 0.5; z + wh < h - 0.25; z += 0.85) floors.push(z);
-  const cols = (len: number) => {
-    const n = Math.max(1, Math.floor((len - 0.5 + gap) / (ww + gap)));
-    const start = (len - (n * ww + (n - 1) * gap)) / 2;
-    return Array.from({ length: n }, (_, i) => start + i * (ww + gap));
-  };
-  // Цонхнуудыг нэг path болгон нэгтгэнэ (SVG хэмжээ багасгана)
-  let dim = "";
-  let lit = "";
-  let dimR = "";
-  let litR = "";
-  cols(w).forEach((u, i) =>
-    floors.forEach((z, j) => {
-      const p = `M${poly([[x + u, y + d, z], [x + u + ww, y + d, z], [x + u + ww, y + d, z + wh], [x + u, y + d, z + wh]]).replace(/ /g, "L")}Z`;
-      if ((i * 13 + j * 7 + seed * 5) % 9 < 2) lit += p;
-      else dim += p;
-    }),
-  );
-  cols(d).forEach((u, i) =>
-    floors.forEach((z, j) => {
-      const p = `M${poly([[x + w, y + u, z], [x + w, y + u + ww, z], [x + w, y + u + ww, z + wh], [x + w, y + u, z + wh]]).replace(/ /g, "L")}Z`;
-      if ((i * 11 + j * 5 + seed * 3) % 10 < 2) litR += p;
-      else dimR += p;
-    }),
-  );
-  return (
-    <g>
-      <Box x={x} y={y} w={w} d={d} h={h} />
-      <path d={dim} fill={COL.win} />
-      <path d={dimR} fill={COL.win} opacity=".9" />
-      <path d={lit} fill={COL.lit} opacity=".9" />
-      <path d={litR} fill={COL.litR} opacity=".75" />
-      <polyline points={poly([[x, y + d, h], [x + w, y + d, h], [x + w, y, h]])} fill="none" stroke={COL.line} strokeWidth="1.2" />
-    </g>
-  );
-}
-
-function Tree({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
-  const [cx, cy] = pr(x, y);
-  return (
-    <g>
-      <ellipse cx={cx} cy={cy} rx={9 * s} ry={4.5 * s} fill="#000" opacity=".28" />
-      <rect x={cx - 1.5} y={cy - 15 * s} width="3" height={15 * s} fill="#2A3655" />
-      <circle cx={cx} cy={cy - 21 * s} r={10 * s} fill="#1E3150" />
-      <circle cx={cx - 3 * s} cy={cy - 24 * s} r={5 * s} fill="#2B4268" />
-    </g>
-  );
-}
-
-function Lamp({ x, y }: { x: number; y: number }) {
-  const [cx, cy] = pr(x, y);
-  return (
-    <g>
-      <line x1={cx} y1={cy} x2={cx} y2={cy - 30} stroke={COL.line} strokeWidth="2" />
-      <circle cx={cx} cy={cy - 31} r="9" fill={COL.accent} opacity=".14" />
-      <circle cx={cx} cy={cy - 31} r="3" fill={COL.accent} />
-    </g>
-  );
-}
-
-function Ger({ x, y }: { x: number; y: number }) {
-  const r = 0.95;
-  const h = 0.72;
-  const [cx, cy] = pr(x, y);
-  const rx = 1.2247 * r * S;
-  const ry = 0.7071 * r * S;
-  const top = cy - h * S;
-  const rr = 1.1;
-  return (
-    <g>
-      <ellipse cx={cx} cy={cy + 2} rx={rx + 4} ry={ry + 2} fill="#000" opacity=".25" />
-      <path d={`M${f(cx - rx)},${f(top)} L${f(cx - rx)},${f(cy)} A${f(rx)} ${f(ry)} 0 0 0 ${f(cx + rx)},${f(cy)} L${f(cx + rx)},${f(top)} A${f(rx)} ${f(ry)} 0 0 1 ${f(cx - rx)},${f(top)} Z`} fill="#C9D1DE" />
-      <path d={`M${f(cx - rx)},${f(top + 6)} A${f(rx)} ${f(ry)} 0 0 0 ${f(cx + rx)},${f(top + 6)}`} fill="none" stroke={COL.accent} strokeWidth="2" opacity=".85" />
-      <path d={`M${f(cx - rx * rr)},${f(top)} L${f(cx)},${f(top - 0.62 * S)} L${f(cx + rx * rr)},${f(top)} A${f(rx * rr)} ${f(ry * rr)} 0 0 1 ${f(cx - rx * rr)},${f(top)} Z`} fill="#E6EAF1" />
-      <ellipse cx={cx} cy={top - 0.62 * S + 2} rx="5" ry="2.6" fill={COL.accent} />
-      <rect x={cx - 5} y={cy + ry - 17} width="10" height="14" rx="1.5" fill={COL.accent} />
-    </g>
-  );
-}
-
-/** Ochir O-тэмдэг (512 viewBox-оос) */
-function Mark({ scale, dot = COL.text }: { scale: number; dot?: string }) {
-  return (
-    <g transform={`scale(${scale})`}>
-      <path d="M 413.6 228.2 A 160 160 0 1 1 283.8 98.4" fill="none" stroke={COL.accent} strokeWidth="64" />
-      <circle cx="372" cy="140" r="34" fill={dot} />
-    </g>
-  );
-}
-
-/* --- Хүмүүс (тус бүр ≤ 12 path) --------------------------------------- */
-
-/** Мотоцикльтой хүргэлтийн ажилтан (0,0 = газар) */
-function Rider() {
-  return (
-    <g>
-      <ellipse cx="0" cy="0" rx="15" ry="3.5" fill="#000" opacity=".4" />
-      <rect x="-17" y="-25" width="12" height="11" rx="1.5" fill={COL.accent} />
-      <circle cx="-9" cy="-5.5" r="5" fill={COL.sky} stroke={COL.muted} strokeWidth="2" />
-      <circle cx="9" cy="-5.5" r="5" fill={COL.sky} stroke={COL.muted} strokeWidth="2" />
-      <path d="M-11-9 L-3-13 H6 L10-6 L6-6 L3-9 H-6 Z" fill="#E8EDF4" />
-      <path d="M6-13 L9-19" stroke={COL.muted} strokeWidth="2" strokeLinecap="round" />
-      <path d="M-2-13 L2-24" stroke={COL.accent} strokeWidth="5.5" strokeLinecap="round" />
-      <path d="M1-21 L8-18" stroke={COL.accent} strokeWidth="2.6" strokeLinecap="round" />
-      <circle cx="3" cy="-28" r="5" fill={COL.text} />
-      <path d="M4-30 h4" stroke={COL.sky} strokeWidth="2" strokeLinecap="round" />
-    </g>
-  );
-}
-
-/** Хайрцаг барьсан алхаж буй ажилтан */
-function Walker({ boxRef }: { boxRef?: Ref<SVGRectElement> }) {
-  return (
-    <g>
-      <ellipse cx="0" cy="0" rx="9" ry="3" fill="#000" opacity=".35" />
-      <path d="M-3 0 L-1-12 M4 0 L1-12" stroke="#26334F" strokeWidth="3.4" strokeLinecap="round" />
-      <path d="M-5-11 Q-6-23 0-25 Q6-23 5-11 Z" fill={COL.accent} />
-      <circle cx="0" cy="-29.5" r="4.6" fill={COL.text} />
-      <path d="M-4.6-31 a4.6 4.6 0 0 1 9.2 0 Z" fill={COL.accent} />
-      <path d="M-4-20 L2-16 L8-17" fill="none" stroke={COL.accentDark} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-      <rect ref={boxRef} x="3" y="-23" width="10" height="8" rx="1" fill="#FF8A55" stroke={COL.accentDark} strokeWidth=".8" />
-    </g>
-  );
-}
-
-/** Мотоцикльдоо ачиж буй ажилтан (зогсоосон мотоцикльтой) */
-function Loader() {
-  return (
-    <g>
-      <ellipse cx="6" cy="0" rx="22" ry="4" fill="#000" opacity=".35" />
-      <circle cx="0" cy="-5.5" r="5" fill={COL.sky} stroke={COL.muted} strokeWidth="2" />
-      <circle cx="18" cy="-5.5" r="5" fill={COL.sky} stroke={COL.muted} strokeWidth="2" />
-      <path d="M-2-9 L6-13 H15 L19-6 L15-6 L12-9 H3 Z" fill="#E8EDF4" />
-      <rect x="-6" y="-24" width="12" height="11" rx="1.5" fill={COL.accent} />
-      <path d="M-14 0 L-13-12 M-9 0 L-10-12" stroke="#26334F" strokeWidth="3.2" strokeLinecap="round" />
-      <path d="M-16-11 Q-17-22 -11-24 Q-6-22 -7-11 Z" fill={COL.accent} />
-      <circle cx="-11.5" cy="-28.5" r="4.5" fill={COL.text} />
-      <path d="M-8-20 L-3-27 M-14-20 L-6-29" stroke={COL.accentDark} strokeWidth="2.4" strokeLinecap="round" />
-      <rect x="-7" y="-36" width="10" height="8" rx="1" fill="#FF8A55" stroke={COL.accentDark} strokeWidth=".8" />
-    </g>
-  );
-}
-
-/** Компьютерийн ард суусан хүн (≈4 path) */
-function Seated({ shirt }: { shirt: string }) {
-  return (
-    <g>
-      <path d="M-6 0 V-9 H6 V0 M-7-9 H7" stroke="#2A3657" strokeWidth="2" fill="none" />
-      <path d="M-5-9 Q-6-20 0-21 Q6-20 5-9 Z" fill={shirt} />
-      <circle cx="0" cy="-24.5" r="4.2" fill={COL.text} />
-      <path d="M-4.2-25.5 a4.2 4.2 0 0 1 8.4 0 Z" fill="#26334F" />
-    </g>
-  );
-}
-
-/** Захиалгын "#" шошго */
-function Tag({ label }: { label: string }) {
-  return (
-    <g>
-      <rect x="-23" y="-9" width="46" height="18" rx="9" fill="#111A2E" stroke="#1E2A44" />
-      <circle cx="-13" cy="0" r="3" fill={COL.accent} />
-      <text x="-7" y="3.5" fontSize="10" fontWeight="700" fill={COL.text} fontFamily="var(--font-inter), system-ui, sans-serif">
-        {label}
-      </text>
-    </g>
-  );
-}
-
-function OrderTicket() {
-  return (
-    <g>
-      <rect x="-30" y="-12" width="60" height="24" rx="4" fill={COL.text} />
-      <path d="M-30-8a4 4 0 0 1 4-4h8v24h-8a4 4 0 0 1-4-4z" fill={COL.accent} />
-      <line x1="-18" y1="-10" x2="-18" y2="10" stroke={COL.sky} strokeOpacity=".35" strokeDasharray="2 2" />
-      <text x="-13" y="-1" fontSize="7.5" fontWeight="800" fill={COL.sky} fontFamily="var(--font-inter), system-ui, sans-serif">
-        Захиалга
-      </text>
-      <rect x="-13" y="3.5" width="24" height="3" rx="1.5" fill={COL.muted} />
-      <circle cx="23" cy="-4" r="2.6" fill={COL.accent} />
-    </g>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Үзэгдлүүдийн байрлал                                                 */
-/* ------------------------------------------------------------------ */
-// Гудамж: зүүн гар y=20 (x: -4→20), баруун гар x=20 (y: 20→-4), тойрог 14..20
-const ST = 20;
-const RING = 14;
-const HALF = 0.75;
-
-// (а) Дэлгүүр
-const SHOP = { x: 1, y: 13.4, w: 5, d: 2.8, h: 2.6 };
-const SY = SHOP.y + SHOP.d; // урд нүүр (y хавтгай)
-const DOOR_X = 4.8;
-const WALKER: [number, number] = [4.3, 17.4];
-const LOADER: [number, number] = [8.2, 18.4];
-
-// (в) Вэб студи (2 давхар, гудамж руу харсан хана онгорхой)
-const STU = { x: 15, y: 1, w: 4.1, d: 8.2, h: 4 };
-const OPEN_X = STU.x + STU.w; // 19.1
-const FLOOR_H = 2;
-const DESK_Y = [1.8, 3.4, 5.0, 6.6, 8.2];
-const SHIRTS = ["#9AA5B8", "#F5F7FA", "#3A4A6B", "#FF8A55", "#9AA5B8", "#3A4A6B", "#F5F7FA", "#9AA5B8", "#FF8A55", "#3A4A6B"];
-
-// Хөдөлгөөний замууд
-const LONG_PATH = `${pathD([[-4, ST], [ST, ST], [ST, -4], [ST, ST]])} Z`;
-const RING_PATH = pathD([[RING, RING], [ST, RING], [ST, ST], [RING, ST]], true);
-const ORDER_PATH = pathD([[OPEN_X - 0.1, 5, 2.6], [ST, 5, 0.9], [ST, ST, 0.6], [6, ST, 0.6], [DOOR_X, SY + 0.1, 0.7]]);
-
-const BIKES = [
-  { path: "long", dur: 30, start: 0.12, tag: "#1047" },
-  { path: "long", dur: 21, start: 0.42, tag: "#1052" },
-  { path: "ring", dur: 11, start: 0.6, tag: "#1049" },
-] as const;
-
-const TICKET_STARTS: [number, number][] = [
-  [262, 446],
-  [318, 458],
-  [374, 446],
-];
-
-/* ------------------------------------------------------------------ */
-function Shop({ glowRef }: { glowRef: RefObject<SVGGElement> }) {
-  const { x, y, w, h } = SHOP;
-  const signY = y + 1.4;
-  const [tx, ty] = pr(2.25, signY, 2.82);
-  const [mx, my] = pr(1.55, signY, 3.28);
-  return (
-    <g>
-      <Box {...SHOP} top="#2A3657" left="#202D4D" right="#16213C" />
-      <g ref={glowRef} opacity=".6">
-        <polygon points={poly([[1.3, SY, 0], [3.9, SY, 0], [4.2, SY + 1.2, 0], [1, SY + 1.2, 0]])} fill={COL.accent} opacity=".12" />
-        <polygon points={poly([[1.45, SY, 0.42], [3.95, SY, 0.42], [3.95, SY, 1.86], [1.45, SY, 1.86]])} fill={COL.accent} opacity=".35" />
-      </g>
-      {/* цонх = вэб сайтын дэлгэц */}
-      <polygon points={poly([[1.55, SY, 0.5], [3.85, SY, 0.5], [3.85, SY, 1.78], [1.55, SY, 1.78]])} fill="#0B1220" />
-      <polygon points={poly([[1.55, SY, 1.58], [3.85, SY, 1.58], [3.85, SY, 1.78], [1.55, SY, 1.78]])} fill={COL.accent} />
-      <path
-        d={[1.7, 2.4, 3.1]
-          .map((u) => `M${poly([[u, SY, 0.92], [u + 0.55, SY, 0.92], [u + 0.55, SY, 1.38], [u, SY, 1.38]]).replace(/ /g, "L")}Z`)
-          .join("")}
-        fill="#26365A"
-      />
-      {/* хаалга */}
-      <polygon points={poly([[DOOR_X - 0.3, SY, 0], [DOOR_X + 0.3, SY, 0], [DOOR_X + 0.3, SY, 1.45], [DOOR_X - 0.3, SY, 1.45]])} fill="#0E1628" stroke={COL.line} strokeWidth=".8" />
-      {/* саравч */}
-      <polygon points={poly([[1.1, SY, 2.0], [5.9, SY, 2.0], [5.9, SY + 0.55, 1.72], [1.1, SY + 0.55, 1.72]])} fill={COL.accent} />
-      <polygon points={poly([[1.1, SY + 0.55, 1.72], [5.9, SY + 0.55, 1.72], [5.9, SY + 0.55, 1.62], [1.1, SY + 0.55, 1.62]])} fill={COL.accentDark} />
-      {/* баруун цонх */}
-      <polygon points={poly([[x + w, 14, 0.7], [x + w, 15.4, 0.7], [x + w, 15.4, 1.6], [x + w, 14, 1.6]])} fill={COL.litR} opacity=".5" />
-      {/* дээврийн хаяг + O-тэмдэг */}
-      <polygon points={poly([[1.35, signY, h], [4.7, signY, h], [4.7, signY, h + 0.85], [1.35, signY, h + 0.85]])} fill="#0E1628" stroke={COL.accent} strokeWidth="1" />
-      <g transform={`matrix(${C} 0.5 0 1 ${f(mx)} ${f(my)})`}>
-        <Mark scale={0.034} />
-      </g>
-      <text transform={`matrix(${C} 0.5 0 1 ${f(tx)} ${f(ty)})`} fill={COL.accent} fontSize="11" fontWeight="800" letterSpacing="0.6" fontFamily="var(--font-inter), system-ui, sans-serif">
-        ДЭЛГҮҮР
-      </text>
-    </g>
-  );
-}
-
-/** Ширээ + дэлгэц + хүн (нэг давхарт), дэлгэцийн контент нь data-screen */
-function Desk({ y, z0, i }: { y: number; z0: number; i: number }) {
-  const mX = OPEN_X - 0.5; // дэлгэцийн хавтгай (гудамж руу харсан)
-  const [px, py] = pr(OPEN_X - 0.4, y - 0.8, z0);
-  const [gx, gy] = pr(mX + 0.2, y, z0 + 1.05);
-  const hdr = i % 3 === 0 ? COL.accent : i % 3 === 1 ? "#7FA7FF" : COL.lit;
-  const q = (y0: number, y1: number, z1: number, z2: number) =>
-    poly([[mX, y + y0, z0 + z1], [mX, y + y1, z0 + z1], [mX, y + y1, z0 + z2], [mX, y + y0, z0 + z2]]);
-  return (
-    <g>
-      {/* хүн (дэлгэцийн хажууд, гүнд) */}
-      <g transform={`translate(${f(px)} ${f(py)})`}>
-        <Seated shirt={SHIRTS[i] ?? COL.muted} />
-      </g>
-      {/* ширээ */}
-      <Box x={OPEN_X - 0.75} y={y - 0.5} z={z0 + 0.55} w={0.6} d={1} h={0.08} top="#3A4A6B" left="#2A3657" right="#22304D" />
-      {/* дэлгэцийн гэрэл */}
-      <ellipse cx={gx} cy={gy} rx="16" ry="12" fill={hdr} opacity=".18" />
-      <polygon points={q(-0.46, 0.46, 0.7, 1.5)} fill="#2E3B5C" />
-      <g data-screen="">
-        <polygon points={q(-0.41, 0.41, 0.75, 1.45)} fill="#E9EEF6" />
-        <polygon points={q(-0.38, 0.38, 1.3, 1.41)} fill={hdr} />
-        <polygon points={q(-0.38, -0.02, 0.8, 1.24)} fill={i % 2 ? "#C9D3E3" : hdr} opacity=".8" />
-        <polygon points={q(0.03, 0.38, 0.8, 1.02)} fill="#B7C2D6" />
-      </g>
-    </g>
-  );
-}
-
-function Studio({ neonRef }: { neonRef: RefObject<SVGGElement> }) {
-  const { x, y, d, h } = STU;
-  const yb = y + d;
-  const [nx, ny] = pr(OPEN_X - 0.5, 8.1, h + 0.28);
-  return (
-    <g>
-      {/* дотоод ханууд */}
-      <polygon points={poly([[x, y, 0], [x, yb, 0], [x, yb, h], [x, y, h]])} fill="#263556" />
-      <polygon points={poly([[x, y, 0], [OPEN_X, y, 0], [OPEN_X, y, h], [x, y, h]])} fill="#1E2B4A" />
-      {/* 1-р давхрын шал */}
-      <polygon points={poly([[x, y, 0], [OPEN_X, y, 0], [OPEN_X, yb, 0], [x, yb, 0]])} fill="#1A2540" />
-      {DESK_Y.map((dy, i) => (
-        <Desk key={`a${dy}`} y={dy} z0={0} i={i} />
-      ))}
-      {/* 2-р давхрын хавтан */}
-      <polygon points={poly([[x, y, FLOOR_H], [OPEN_X, y, FLOOR_H], [OPEN_X, yb, FLOOR_H], [x, yb, FLOOR_H]])} fill="#1A2540" />
-      <polygon points={poly([[OPEN_X, y, FLOOR_H - 0.16], [OPEN_X, yb, FLOOR_H - 0.16], [OPEN_X, yb, FLOOR_H], [OPEN_X, y, FLOOR_H]])} fill="#2E3B5C" />
-      {DESK_Y.map((dy, i) => (
-        <Desk key={`b${dy}`} y={dy} z0={FLOOR_H} i={i + 5} />
-      ))}
-      {/* дээвэр */}
-      <polygon points={poly([[x, y, h], [OPEN_X, y, h], [OPEN_X, yb, h], [x, yb, h]])} fill="#2A3657" />
-      <polygon points={poly([[OPEN_X, y, h - 0.2], [OPEN_X, yb, h - 0.2], [OPEN_X, yb, h], [OPEN_X, y, h]])} fill="#33415F" />
-      {/* талбай руу харсан гадна хана (цонхтой) */}
-      <polygon points={poly([[x, yb, 0], [OPEN_X, yb, 0], [OPEN_X, yb, h], [x, yb, h]])} fill="#1B2744" />
-      <path
-        d={[0.5, 2.5]
-          .flatMap((z) => [0.4, 1.5, 2.6].map((u) => `M${poly([[x + u, yb, z], [x + u + 0.7, yb, z], [x + u + 0.7, yb, z + 1], [x + u, yb, z + 1]]).replace(/ /g, "L")}Z`))
-          .join("")}
-        fill={COL.win}
-      />
-      {/* неон хаяг дээвэр дээр */}
-      <line x1={pr(OPEN_X - 0.5, 8, h)[0]} y1={pr(OPEN_X - 0.5, 8, h)[1]} x2={pr(OPEN_X - 0.5, 8, h + 0.3)[0]} y2={pr(OPEN_X - 0.5, 8, h + 0.3)[1]} stroke={COL.line} strokeWidth="2" />
-      <line x1={pr(OPEN_X - 0.5, 2.2, h)[0]} y1={pr(OPEN_X - 0.5, 2.2, h)[1]} x2={pr(OPEN_X - 0.5, 2.2, h + 0.3)[0]} y2={pr(OPEN_X - 0.5, 2.2, h + 0.3)[1]} stroke={COL.line} strokeWidth="2" />
-      <g ref={neonRef}>
-        <text transform={`matrix(${C} -0.5 0 1 ${f(nx)} ${f(ny)})`} fontSize="17" fontWeight="800" letterSpacing="2" fontFamily="var(--font-inter), system-ui, sans-serif" fill="none" stroke={COL.accent} strokeWidth="5" strokeOpacity=".28" strokeLinejoin="round">
-          WEB · SYSTEM
-        </text>
-        <text transform={`matrix(${C} -0.5 0 1 ${f(nx)} ${f(ny)})`} fontSize="17" fontWeight="800" letterSpacing="2" fontFamily="var(--font-inter), system-ui, sans-serif" fill="#FFD2B8" stroke={COL.accent} strokeWidth="0.8">
-          WEB · SYSTEM
-        </text>
-      </g>
-    </g>
-  );
-}
-
-function OchirSign({ x, y }: { x: number; y: number }) {
-  const [cx, cy] = pr(x, y);
-  return (
-    <g>
-      <ellipse cx={cx} cy={cy} rx="16" ry="5" fill="#000" opacity=".3" />
-      <rect x={cx - 2} y={cy - 22} width="4" height="22" fill={COL.line} />
-      <rect x={cx - 32} y={cy - 46} width="64" height="24" rx="6" fill="#111A2E" stroke={COL.accent} />
-      <g transform={`translate(${cx - 27} ${cy - 42})`}>
-        <Mark scale={0.031} />
-      </g>
-      <text x={cx - 9} y={cy - 29.5} fontSize="11" fontWeight="800" fill={COL.text} fontFamily="var(--font-inter), system-ui, sans-serif">
-        Ochir
-      </text>
-    </g>
-  );
-}
+import { useRef } from "react";
+import {
+  BIKES, Box, Building, COL, DOOR_X, Ger, HALF, LOADER, LONG_PATH, Lamp, OPEN_X, ORDER_PATH, OchirSign, OrderTicket, RING, RING_PATH,
+  Rider, ST, SY, Shop, Studio, TICKET_STARTS, Tag, Tree, VB_H, VB_W, WALKER, Walker, Loader, f, pathD, poly, pr,
+} from "./iso/kit";
+import { animateBikes, animateBobs, animateChecks, animateGlow, animateHandoff, animateNeon, animateScreens, useIsoScene } from "./iso/scene";
 
 /* ------------------------------------------------------------------ */
 export function IsometricCity() {
@@ -453,162 +28,58 @@ export function IsometricCity() {
   const ringRef = useRef<SVGPathElement>(null);
   const orderPathRef = useRef<SVGPathElement>(null);
 
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reduce.matches) return;
+  useIsoScene(
+    rootRef,
+    (gsap, master, root) => {
+      animateBikes(
+        gsap,
+        master,
+        bikesRef.current,
+        bikeTagsRef.current,
+        BIKES.map((b) => ({ dur: b.dur, start: b.start, path: (b.path === "long" ? longRef : ringRef).current })),
+      );
+      animateBobs(gsap, master, svgRef.current);
+      gsap.utils.toArray<HTMLElement>("[data-float]", root).forEach((el, i) => {
+        master.add(gsap.to(el, { y: -6, duration: 2.2 + i * 0.35, ease: "sine.inOut", yoyo: true, repeat: -1, delay: i * 0.4 }), 0);
+      });
+      animateGlow(gsap, master, glowRef.current);
+      animateHandoff(gsap, master, flyBoxRef.current, walkerBoxRef.current, WALKER);
+      animateScreens(gsap, master, svgRef.current);
+      animateChecks(gsap, master, checksRef.current);
+      animateNeon(gsap, master, neonRef.current);
 
-    let cancelled = false;
-    let cleanup: (() => void) | undefined;
+      // Вэб студи → гудамж → дэлгүүр: "ирсэн захиалга" 8с тутам
+      const dot = orderDotRef.current;
+      if (dot && orderPathRef.current) {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 8 - 4.2, delay: 1 });
+        tl.set(dot, { opacity: 0 })
+          .to(dot, { opacity: 1, duration: 0.3 })
+          .to(dot, { duration: 3.6, ease: "power1.inOut", motionPath: { path: orderPathRef.current } }, 0)
+          .to(dot, { opacity: 0, duration: 0.3 }, 3.9);
+        master.add(tl, 0);
+      }
 
-    const start = async () => {
-      const [{ gsap }, { MotionPathPlugin }] = await Promise.all([import("gsap"), import("gsap/MotionPathPlugin")]);
-      if (cancelled) return;
-      gsap.registerPlugin(MotionPathPlugin);
-      const master = gsap.timeline();
-
-      const ctx = gsap.context(() => {
-        // 1) Мотоциклууд — 3 өөр хурдтай loop, шошго нь урд давхаргад дагана
-        const bikeEls = bikesRef.current ? Array.from(bikesRef.current.children) : [];
-        const tagEls = bikeTagsRef.current ? Array.from(bikeTagsRef.current.children) : [];
-        BIKES.forEach((b, i) => {
-          const el = bikeEls[i] as SVGGElement | undefined;
-          const tag = tagEls[i] as SVGGElement | undefined;
-          const flip = el?.firstElementChild as SVGGElement | null;
-          if (!el) return;
-          let lastX = Number.NaN;
-          master.add(
-            gsap.to(el, {
-              duration: b.dur,
-              ease: "none",
-              repeat: -1,
-              motionPath: { path: (b.path === "long" ? longRef : ringRef).current!, start: b.start, end: b.start + 1 },
-              onUpdate() {
-                const x = Number(gsap.getProperty(el, "x"));
-                const y = Number(gsap.getProperty(el, "y"));
-                if (!Number.isNaN(lastX) && Math.abs(x - lastX) > 0.01) flip?.setAttribute("transform", x < lastX ? "scale(-1,1)" : "");
-                lastX = x;
-                if (tag) gsap.set(tag, { x, y });
-              },
-            }),
-            0,
-          );
-        });
-
-        // 2) Шошгууд хөвнө
-        gsap.utils.toArray<SVGElement>("[data-bob]", svgRef.current).forEach((t, i) => {
-          master.add(gsap.to(t, { y: -4, duration: 1.4 + (i % 3) * 0.3, ease: "sine.inOut", yoyo: true, repeat: -1, delay: i * 0.25 }), 0);
-        });
-        gsap.utils.toArray<HTMLElement>("[data-float]", root).forEach((el, i) => {
-          master.add(gsap.to(el, { y: -6, duration: 2.2 + i * 0.35, ease: "sine.inOut", yoyo: true, repeat: -1, delay: i * 0.4 }), 0);
-        });
-
-        // 3) Дэлгүүрийн цонх 3с тутам анивчина
-        master.add(gsap.fromTo(glowRef.current, { opacity: 0.45 }, { opacity: 1, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: -1 }), 0);
-
-        // 4) Хаалганаас 5с тутам шинэ хайрцаг ажилтны гарт очно
-        const [dx0, dy0] = pr(DOOR_X, SY + 0.05, 0.55);
-        const [hx, hy] = pr(WALKER[0], WALKER[1]);
-        const fly = flyBoxRef.current;
-        const held = walkerBoxRef.current;
-        if (fly && held) {
-          gsap.set(held, { opacity: 0 });
-          const tl = gsap.timeline({ repeat: -1, repeatDelay: 5 - 3.4 });
-          tl.fromTo(fly, { x: dx0, y: dy0, opacity: 0, scale: 0.7, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.3 })
-            .to(fly, { x: hx + 8, y: hy - 19, duration: 1.1, ease: "power1.inOut" })
-            .set(fly, { opacity: 0 })
-            .set(held, { opacity: 1 })
-            .to(held, { opacity: 0, duration: 0.4, delay: 1.6 });
-          master.add(tl, 0);
-        }
-
-        // 5) Студийн дэлгэцүүд 2–4с тутам өөр өөр цагт "шинэ хуудас"
-        gsap.utils.toArray<SVGElement>("[data-screen]", svgRef.current).forEach((sc, i) => {
-          const tl = gsap.timeline({ repeat: -1, delay: (i * 0.73) % 3, repeatDelay: 2 + ((i * 7) % 5) * 0.5 });
-          tl.to(sc, { opacity: 0.15, duration: 0.12 }).to(sc, { opacity: 1, duration: 0.35, ease: "power1.out" });
-          master.add(tl, 0);
-        });
-
-        // 6) Хааяа дэлгэцээс "✓" дээш хөвнө
-        (checksRef.current ? Array.from(checksRef.current.children) : []).forEach((ck, i) => {
-          const tl = gsap.timeline({ repeat: -1, delay: 1.5 + i * 2.6, repeatDelay: 6 + i });
-          tl.fromTo(ck, { y: 0, opacity: 0 }, { y: -10, opacity: 1, duration: 0.4 }).to(ck, { y: -30, opacity: 0, duration: 1.1, ease: "power1.in" });
-          master.add(tl, 0);
-        });
-
-        // 7) Неон хаяг зөөлөн анивчина
-        master.add(gsap.to(neonRef.current, { opacity: 0.7, duration: 0.08, repeat: -1, yoyo: true, repeatDelay: 3.7, ease: "none" }), 0);
-
-        // 8) Вэб студи → гудамж → дэлгүүр: "ирсэн захиалга" 8с тутам
-        const dot = orderDotRef.current;
-        if (dot && orderPathRef.current) {
-          const tl = gsap.timeline({ repeat: -1, repeatDelay: 8 - 4.2, delay: 1 });
-          tl.set(dot, { opacity: 0 })
-            .to(dot, { opacity: 1, duration: 0.3 })
-            .to(dot, { duration: 3.6, ease: "power1.inOut", motionPath: { path: orderPathRef.current } }, 0)
-            .to(dot, { opacity: 0, duration: 0.3 }, 3.9);
-          master.add(tl, 0);
-        }
-
-        // 9) Захиалгын тасалбарууд 4с тутам доод ирмэгээс дэлгүүр рүү
-        const tickets = ticketsRef.current ? Array.from(ticketsRef.current.children) : [];
-        const [ex, ey] = pr(DOOR_X, SY + 0.15, 0.7);
-        tickets.forEach((t, i) => {
-          const [sx, sy] = TICKET_STARTS[i] ?? TICKET_STARTS[0]!;
-          const inner = t.firstElementChild;
-          const tl = gsap.timeline({ repeat: -1, delay: i * 4, repeatDelay: 4 * tickets.length - 3.1 });
-          tl.fromTo(inner, { x: 0, y: 14, scale: 1, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out", transformOrigin: "50% 50%" })
-            .to(inner, { x: ex - sx, y: ey - sy, scale: 0.3, duration: 2.2, ease: "power2.inOut" }, "+=0.4")
-            .to(inner, { opacity: 0, duration: 0.35, ease: "power1.in" }, "-=0.35");
-          master.add(tl, 0);
-        });
-      }, root);
-
-      // Parallax: арын 6px, гудамж/хүмүүс 12px, урд шошго 20px
-      let raf = 0;
-      const layers: [Element | null, number][] = [
-        [backRef.current, 6],
-        [midRef.current, 12],
-        [frontRef.current, 20],
-        [chipsRef.current, 20],
-      ];
-      const onScroll = () => {
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-          raf = 0;
-          const r = root.getBoundingClientRect();
-          const vh = window.innerHeight;
-          const p = Math.min(1, Math.max(0, (vh - r.top) / Math.max(1, vh + r.height)));
-          for (const [el, amt] of layers) if (el) (el as HTMLElement).style.transform = `translate3d(0, ${(-amt * p).toFixed(2)}px, 0)`;
-        });
-      };
-      window.addEventListener("scroll", onScroll, { passive: true });
-      onScroll();
-
-      const io = new IntersectionObserver(([e]) => (e?.isIntersecting ? master.resume() : master.pause()), { threshold: 0 });
-      io.observe(root);
-      const onReduce = () => reduce.matches && master.pause();
-      reduce.addEventListener("change", onReduce);
-
-      cleanup = () => {
-        window.removeEventListener("scroll", onScroll);
-        cancelAnimationFrame(raf);
-        io.disconnect();
-        reduce.removeEventListener("change", onReduce);
-        master.kill();
-        ctx.revert();
-      };
-    };
-
-    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
-    const id = w.requestIdleCallback ? w.requestIdleCallback(() => void start(), { timeout: 1500 }) : window.setTimeout(() => void start(), 300);
-    return () => {
-      cancelled = true;
-      if (!w.requestIdleCallback) window.clearTimeout(id);
-      cleanup?.();
-    };
-  }, []);
+      // Захиалгын тасалбарууд 4с тутам доод ирмэгээс дэлгүүр рүү
+      const tickets = ticketsRef.current ? Array.from(ticketsRef.current.children) : [];
+      const [ex, ey] = pr(DOOR_X, SY + 0.15, 0.7);
+      tickets.forEach((t, i) => {
+        const [sx, sy] = TICKET_STARTS[i] ?? TICKET_STARTS[0]!;
+        const inner = t.firstElementChild;
+        const tl = gsap.timeline({ repeat: -1, delay: i * 4, repeatDelay: 4 * tickets.length - 3.1 });
+        tl.fromTo(inner, { x: 0, y: 14, scale: 1, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out", transformOrigin: "50% 50%" })
+          .to(inner, { x: ex - sx, y: ey - sy, scale: 0.3, duration: 2.2, ease: "power2.inOut" }, "+=0.4")
+          .to(inner, { opacity: 0, duration: 0.35, ease: "power1.in" }, "-=0.35");
+        master.add(tl, 0);
+      });
+    },
+    // Parallax: арын 6px, гудамж/хүмүүс 12px, урд шошго 20px
+    () => [
+      [backRef.current, 6],
+      [midRef.current, 12],
+      [frontRef.current, 20],
+      [chipsRef.current, 20],
+    ],
+  );
 
   // Статик (reduced-motion / JS ачаалахаас өмнөх) байрлалууд
   const bikeStatic: [number, number][] = [pr(9, ST), pr(ST, 9), pr(ST, 17)];
