@@ -18,7 +18,7 @@ const steps: { title: string; text: string; who: string; icon: React.ReactNode }
   },
   {
     title: "Та системд оруулна",
-    text: "Порталаар эсвэл чатаар илгээнэ.",
+    text: "Ochir системээр эсвэл чатаар илгээнэ.",
     who: "Та",
     icon: (
       <svg viewBox="0 0 32 32" className="h-7 w-7" aria-hidden="true">
@@ -40,7 +40,7 @@ const steps: { title: string; text: string; who: string; icon: React.ReactNode }
   },
   {
     title: "Хүргэнэ, статус шинэчилнэ",
-    text: "Замд → Хүргэгдсэн, порталд шууд.",
+    text: "Замд → Хүргэгдсэн, Ochir системд шууд.",
     who: "Ochir",
     icon: (
       <svg viewBox="0 0 32 32" className="h-7 w-7" aria-hidden="true">

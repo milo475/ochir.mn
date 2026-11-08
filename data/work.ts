@@ -34,13 +34,13 @@ export const work: WorkItem[] = [
   },
   {
     slug: "ursgal",
-    name: "ursGAL",
+    name: "Ochir систем",
     tag: "Бидний систем",
     summary:
-      "Захиалга, хүргэлт, агуулахын дотоод систем. Дэлгүүр захиалгаа оруулж, хүргэгч статус шинэчилж, 7 хоногийн тайлан автоматаар гардаг.",
+      "Манай өөрийн захиалга, хүргэлт, агуулахын систем — хүргэлтийн харилцагч бүр үүгээр захиалгаа оруулж, тайлангаа авна.",
     image: "/work/ursgal.png",
     url: "https://web-production-ac9ab.up.railway.app",
-    note: "Демо: demo@ursgal.mn / Demo1234 — зөвхөн үзэх",
+    note: "Демо: demo@ochir.mn / Demo1234 — зөвхөн үзэх",
   },
   {
     slug: "shop-demo",
