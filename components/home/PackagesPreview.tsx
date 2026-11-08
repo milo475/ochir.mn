@@ -14,7 +14,7 @@ export function PackagesPreview() {
       />
       <div className="mt-10 grid gap-4 lg:grid-cols-3">
         {services.map((s, i) => (
-          <Reveal key={s.slug} delay={i * 0.08} className="card tilt flex flex-col p-6">
+          <Reveal key={s.slug} delay={i * 0.08} className="card tilt flex min-w-0 flex-col p-6">
             <div className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-lg bg-accent-soft text-accent">
                 <ServiceIcon slug={s.slug} className="h-5 w-5" />
@@ -33,7 +33,7 @@ export function PackagesPreview() {
                   </div>
                   <Link
                     href={`/order?service=${s.slug}&package=${p.id}`}
-                    className="shrink-0 rounded-lg border border-line px-3 py-2 text-xs font-semibold text-ink transition-colors hover:border-accent hover:text-accent"
+                    className="max-w-[9rem] shrink-0 rounded-lg border border-line px-3 py-2 text-center text-xs font-semibold leading-snug text-ink transition-colors hover:border-accent hover:text-accent"
                     aria-label={`${s.title}: ${p.name} багц — ${p.priceFrom ?? PRICE_PLACEHOLDER}`}
                   >
                     {p.priceFrom ?? "Үнэ авах"}

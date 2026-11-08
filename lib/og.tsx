@@ -56,11 +56,11 @@ export async function renderOg({ title, subtitle, tag }: { title: string; subtit
           <div style={{ marginTop: 24, fontSize: 30, color: "#9AA5B8", maxWidth: 940, lineHeight: 1.35 }}>{subtitle}</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 26, color: "#9AA5B8" }}>
-          <span style={{ color: "#F5F7FA" }}>Захиалга</span>
+          <span style={{ color: "#F5F7FA" }}>Баталгаажсан захиалга</span>
           <span style={{ color: "#FF6B2C" }}>→</span>
           <span style={{ color: "#F5F7FA" }}>Хүргэлт</span>
           <span style={{ color: "#FF6B2C" }}>→</span>
-          <span style={{ color: "#F5F7FA" }}>Тооцоо</span>
+          <span style={{ color: "#F5F7FA" }}>Тайлан</span>
           <span style={{ marginLeft: "auto" }}>ochir.mn</span>
         </div>
       </div>

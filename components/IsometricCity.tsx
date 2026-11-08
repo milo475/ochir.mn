@@ -397,20 +397,21 @@ export function IsometricCity() {
   return (
     <div ref={rootRef} className="relative mx-auto w-full max-w-[640px] select-none lg:max-w-none">
       {/* Тэнгэрт хөвөх шошгууд */}
-      <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center gap-1.5 sm:gap-2" aria-hidden="true">
-        {["Захиалга", "Хүргэлт", "Тооцоо"].map((label, i) => (
-          <div key={label} className="flex items-center gap-1.5 sm:gap-2">
+      <div className="absolute inset-x-0 -top-3.5 z-10 flex items-center justify-center gap-1 sm:top-0 sm:gap-2" aria-hidden="true">
+        {["Баталгаажсан захиалга", "Хүргэлт", "Тайлан"].map((label, i) => (
+          <div key={label} className="flex items-center gap-1 sm:gap-2">
             {i > 0 && (
-              <svg width="18" height="10" viewBox="0 0 18 10" className="text-accent">
+              <svg width="18" height="10" viewBox="0 0 18 10" className="w-3.5 shrink-0 text-accent sm:w-[18px]">
                 <path d="M1 5h14m-4-4 4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             )}
             <span
               data-float
-              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card/90 px-2.5 py-1 text-[11px] font-semibold text-ink shadow-[0_10px_30px_-12px_rgba(0,0,0,0.8)] sm:px-3 sm:text-xs"
+              className="inline-flex items-center gap-1 rounded-full border border-line bg-card/90 px-2 py-1 text-[10.5px] font-semibold text-ink shadow-[0_10px_30px_-12px_rgba(0,0,0,0.8)] sm:gap-1.5 sm:px-3 sm:text-xs"
             >
-              <span className="grid h-4 w-4 place-items-center rounded-full bg-accent text-[10px] font-bold text-bg">{i + 1}</span>
-              {label}
+              <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-accent text-[10px] font-bold text-bg">{i + 1}</span>
+              {/* Гар утсанд урт шошго 2 мөрөнд хуваагдана */}
+              <span className="max-w-[5.6rem] leading-[1.15] sm:max-w-none sm:whitespace-nowrap">{label}</span>
             </span>
           </div>
         ))}

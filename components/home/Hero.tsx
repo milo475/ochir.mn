@@ -22,7 +22,7 @@ export function Hero() {
             <span className="text-accent">нэг багцаар</span>
           </h1>
           <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted sm:text-lg">
-            Захиалга авахаас эхлээд хүргэж, тооцоо хийх хүртэлх бүх ажлыг бид хариуцна. Та зөвхөн бизнесээ өсгөхөд
+            Төлбөр нь баталгаажсан захиалгыг тань бид хурдан, найдвартай хүргэнэ — та зөвхөн борлуулалтаа өсгөхөд
             анхаар.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">

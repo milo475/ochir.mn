@@ -14,7 +14,7 @@ export function TrialOffer({ className = "" }: { className?: string }) {
           </span>
           <p className="text-[15px] leading-relaxed">
             <span id="trial-title" className="font-bold text-accent">Эхлэх нь амархан: </span>
-            Эхний 10 дэлгүүрт: 7 хоногийн үнэгүй туршилт, тайлантай. Таалагдаагүй бол зогсооход болно.
+            Эхний 10 дэлгүүрт 7 хоногийн үнэгүй туршилт — таалагдаагүй бол зогсооно.
           </p>
         </div>
         <Link href="/order?service=delivery" className="btn-primary shrink-0">

@@ -82,7 +82,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       </section>
 
       <section className="container-page py-16">
-        <SectionTitle eyebrow="Явц" title="Хэрхэн хэрэгжүүлэх вэ" />
+        <SectionTitle eyebrow="Явц" title={service.stepsTitle ?? "Хэрхэн хэрэгжүүлэх вэ"} />
         <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {service.steps.map((st, i) => (
             <Reveal as="li" key={st} delay={i * 0.06} className="card p-5">
@@ -91,6 +91,15 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             </Reveal>
           ))}
         </ol>
+        {service.stepsNote && (
+          <p className="mt-5 flex items-start gap-2 text-sm text-muted">
+            <svg className="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+              <circle cx="8" cy="8" r="6.5" />
+              <path d="M8 7v4M8 4.8v.2" strokeLinecap="round" />
+            </svg>
+            {service.stepsNote}
+          </p>
+        )}
       </section>
 
       <section className="container-page py-8">
