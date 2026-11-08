@@ -38,8 +38,9 @@ export default async function AdminPage({ searchParams }: { searchParams: { stat
     return (
       <Shell>
         <div className="card mx-auto mt-20 max-w-sm p-8">
-          <Logo />
-          <h1 className="mt-6 text-xl font-bold">Админ нэвтрэх</h1>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/mark-dark.svg" width={64} height={64} alt="Ochir" className="mx-auto block rounded-2xl" />
+          <h1 className="mt-6 text-center text-xl font-bold">Админ нэвтрэх</h1>
           <LoginForm />
         </div>
       </Shell>

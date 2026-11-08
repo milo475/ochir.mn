@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Logo } from "./Logo";
 import { InstagramIcon, MessengerIcon } from "./SocialIcons";
 import { instagramHandle, instagramUrl, messengerUrl, phone, phoneHref } from "@/lib/site";
 
@@ -13,10 +12,15 @@ export function Footer() {
     <footer className="mt-24 border-t border-line">
       <div className="container-page grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 lg:col-span-2">
-          <Logo />
+          <span className="inline-flex items-center gap-2 text-lg font-extrabold tracking-tight">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/mark-mono-white.svg" width={24} height={24} alt="" aria-hidden="true" />
+            Ochir
+          </span>
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted">
             Онлайн дэлгүүр, жижиг бизнесийн хүргэлт, вэб сайт, AI автоматжуулалт — нэг дор, багцаар.
           </p>
+          <p className="mt-6 text-xs text-muted">© {new Date().getFullYear()} Ochir</p>
         </div>
         <div>
           <p className="text-sm font-semibold">Үйлчилгээ</p>
@@ -49,9 +53,6 @@ export function Footer() {
             </li>
           </ul>
         </div>
-      </div>
-      <div className="container-page border-t border-line py-6 text-xs text-muted">
-        © {new Date().getFullYear()} Ochir. Бүх эрх хуулиар хамгаалагдсан.
       </div>
     </footer>
   );

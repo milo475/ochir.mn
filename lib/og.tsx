@@ -31,9 +31,10 @@ export async function renderOg({ title, subtitle, tag }: { title: string; subtit
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <svg width="56" height="56" viewBox="0 0 32 32">
-            <path d="M16 3 28 10v12L16 29 4 22V10z" fill="#111A2E" stroke="#FF6B2C" strokeWidth="2" strokeLinejoin="round" />
-            <path d="M16 3v13m0 0 12-6M16 16 4 10" stroke="#FF6B2C" strokeWidth="2" fill="none" />
+          {/* mark-transparent-ийн цэг #0B1220 тул бараан дэвсгэрт цагаан цэгтэй хувилбар */}
+          <svg width="56" height="56" viewBox="0 0 512 512">
+            <path d="M 413.6 228.2 A 160 160 0 1 1 283.8 98.4" fill="none" stroke="#FF6B2C" strokeWidth="64" />
+            <circle cx="372" cy="140" r="34" fill="#F5F7FA" />
           </svg>
           <span style={{ fontSize: 40, fontWeight: 800 }}>Ochir</span>
           {tag && (

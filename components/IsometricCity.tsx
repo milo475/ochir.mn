@@ -242,7 +242,9 @@ const DOOR_X = 8.05;
 
 function Shop({ glowRef }: { glowRef: React.RefObject<SVGGElement> }) {
   const tiles = [5.95, 6.5, 7.05];
-  const [tx, ty] = pr(6.1, SHOP.y + 1.3, 2.36);
+  const SIGN_Y = SHOP.y + 1.3;
+  const [tx, ty] = pr(6.5, SIGN_Y, 2.42);
+  const [mx, my] = pr(5.82, SIGN_Y, 2.9); // брэнд тэмдгийн зүүн дээд булан
   return (
     <g>
       <Box {...SHOP} top="#2A3657" left="#202D4D" right="#16213C" />
@@ -268,13 +270,18 @@ function Shop({ glowRef }: { glowRef: React.RefObject<SVGGElement> }) {
       {/* баруун цонх */}
       <polygon points={poly([[SHOP.x + SHOP.w, 2.2, 0.7], [SHOP.x + SHOP.w, 3.3, 0.7], [SHOP.x + SHOP.w, 3.3, 1.6], [SHOP.x + SHOP.w, 2.2, 1.6]])} fill={COL.litR} opacity=".5" />
       {/* дээврийн самбар */}
-      <polygon points={poly([[5.9, SHOP.y + 1.3, 2.2], [8.3, SHOP.y + 1.3, 2.2], [8.3, SHOP.y + 1.3, 2.75], [5.9, SHOP.y + 1.3, 2.75]])} fill="#0E1628" stroke={COL.accent} strokeWidth="1" />
+      <polygon points={poly([[5.65, SIGN_Y, 2.2], [8.5, SIGN_Y, 2.2], [8.5, SIGN_Y, 2.98], [5.65, SIGN_Y, 2.98]])} fill="#0E1628" stroke={COL.accent} strokeWidth="1" />
+      {/* Ochir O-тэмдэг (≈16px) — хаягны хавтгай дээр */}
+      <g transform={`matrix(${C} 0.5 0 1 ${f(mx)} ${f(my)}) scale(0.031)`}>
+        <path d="M 413.6 228.2 A 160 160 0 1 1 283.8 98.4" fill="none" stroke={COL.accent} strokeWidth="64" />
+        <circle cx="372" cy="140" r="34" fill={COL.text} />
+      </g>
       <text
         transform={`matrix(${C} 0.5 0 1 ${f(tx)} ${f(ty)})`}
         fill={COL.accent}
-        fontSize="9"
+        fontSize="8.5"
         fontWeight="800"
-        letterSpacing="0.4"
+        letterSpacing="0.3"
         fontFamily="var(--font-inter), system-ui, sans-serif"
       >
         ДЭЛГҮҮР

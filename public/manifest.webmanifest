@@ -1,0 +1,13 @@
+{
+  "name": "Ochir",
+  "short_name": "Ochir",
+  "description": "Хүргэлт, вэб сайт, AI автоматжуулалт — нэг багцаар",
+  "start_url": "/",
+  "display": "standalone",
+  "lang": "mn",
+  "theme_color": "#0B1220",
+  "background_color": "#0B1220",
+  "icons": [
+    { "src": "/brand/favicon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }
+  ]
+}
