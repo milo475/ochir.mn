@@ -1,48 +1,44 @@
 /**
- * /services/web — "Жишээ ажлууд".
- * TODO: Бодит ажлуудаар солих — зураг (public/work/*.png, 1200×750), нэр, тайлбар, `url`.
- * Одоогийн зургууд нь зөвхөн PLACEHOLDER; `url: null` үед "Үзэх" линк "Удахгүй" болж харагдана.
+ * /services/web — "Жишээ ажлууд". Зөвхөн бодит төслүүд.
+ * Зураг: public/work/<slug>.png (1280×800 @2x). `url: null` бол "Үзэх" линк харагдахгүй.
  */
 export interface WorkItem {
   slug: string;
   name: string;
-  kind: "Landing" | "Онлайн дэлгүүр" | "Дотоод систем";
+  tag: "Бидний систем" | "Харилцагчийн төсөл" | "Демо загвар";
   summary: string;
   image: string;
   url: string | null;
+  /** Картын доорх жижиг тэмдэглэл */
+  note?: string;
 }
 
 export const work: WorkItem[] = [
   {
-    slug: "shop",
-    name: "Хувцасны онлайн дэлгүүр",
-    kind: "Онлайн дэлгүүр",
-    summary: "Instagram-аар зардаг брэндийн каталог, сагс, QPay төлбөр, админ самбар.",
-    image: "/work/shop.png",
-    url: null,
+    slug: "ursgal",
+    name: "ursGAL",
+    tag: "Бидний систем",
+    summary:
+      "Захиалга, хүргэлт, агуулахын дотоод систем. Дэлгүүр захиалгаа оруулж, хүргэгч статус шинэчилж, 7 хоногийн тайлан автоматаар гардаг.",
+    image: "/work/ursgal.png",
+    url: "https://web-production-ac9ab.up.railway.app",
+    note: "Демо: demo@ursgal.mn / Demo1234 — зөвхөн үзэх",
   },
   {
-    slug: "landing",
-    name: "Гоо сайхны салоны landing",
-    kind: "Landing",
-    summary: "3 хоногт нээх нэг хуудас — үйлчилгээ, үнэ, Messenger-ээр цаг захиалах.",
-    image: "/work/landing.png",
-    url: null,
+    slug: "law-firm",
+    name: "Өмгөөллийн стратеги",
+    tag: "Харилцагчийн төсөл",
+    summary: "Хуулийн фирмийн нүүр сайт + харилцагчийн портал + админ.",
+    image: "/work/law-firm.png",
+    url: "https://web-production-1bbc4.up.railway.app",
   },
   {
-    slug: "system",
-    name: "Захиалга, агуулахын систем",
-    kind: "Дотоод систем",
-    summary: "Өдрийн захиалга, үлдэгдэл, ажилтны эрх, долоо хоногийн тайлан нэг дор.",
-    image: "/work/system.png",
+    slug: "electronics",
+    name: "Цахилгаан барааны дэлгүүр",
+    tag: "Демо загвар",
+    summary: "Онлайн дэлгүүрийн бүрэн загвар: каталог, сагс, админ.",
+    image: "/work/electronics.png",
     url: null,
-  },
-  {
-    slug: "booking",
-    name: "Цаг захиалгын сайт",
-    kind: "Онлайн дэлгүүр",
-    summary: "Хуанлиас цагаа сонгож, урьдчилгаагаа QPay-ээр төлдөг захиалгын сайт.",
-    image: "/work/booking.png",
-    url: null,
+    note: "Бараа, баннер нь зохиомол — загварыг харуулах зорилготой.",
   },
 ];

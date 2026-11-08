@@ -112,6 +112,7 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
                     )}
                     <span className="block text-base font-bold sm:text-lg">{p.name}</span>
                     <span className="mt-1 block text-[13px] font-semibold text-accent">{p.priceFrom ?? PRICE_PLACEHOLDER}</span>
+                    {p.priceNote && <span className="mx-auto mt-1 block max-w-[16ch] text-[11px] font-normal leading-snug text-muted">{p.priceNote}</span>}
                   </th>
                 ))}
               </tr>

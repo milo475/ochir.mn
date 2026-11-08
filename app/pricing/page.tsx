@@ -24,7 +24,7 @@ export default function PricingPage({ searchParams }: { searchParams: { tab?: st
           <div className="mx-auto mt-10 max-w-2xl text-center">
             <h1 className="text-[34px] font-extrabold leading-tight tracking-tight sm:text-5xl">Хэмжээндээ тохирсон багц</h1>
             <p className="mt-4 text-[16px] leading-relaxed text-muted sm:text-lg">
-              Эхлэл багц сард 150 000₮-с. Бусад багцад таны хэмжээнд тааруулж үнийн санал илгээнэ.
+              Хүргэлт бүр 6 000₮-с. Сарын тоо хэмжээнээс хамаарч багцын үнэ буурна.
             </p>
           </div>
           <div className="mx-auto max-w-4xl">

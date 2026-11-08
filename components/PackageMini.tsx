@@ -35,6 +35,7 @@ export function PackageMini({ service, title = "Багцууд" }: { service: Se
               </span>
               <span className="mt-1 text-sm text-muted">{p.tagline}</span>
               <span className="mt-4 text-[15px] font-semibold text-accent">{p.priceFrom ?? PRICE_PLACEHOLDER}</span>
+              {p.priceNote && <span className="mt-1 text-xs text-muted">{p.priceNote}</span>}
             </Link>
           </Reveal>
         ))}

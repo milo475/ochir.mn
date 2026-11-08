@@ -1,6 +1,6 @@
 /**
  * Үйлчилгээ, багцын мэдээлэл. Жишиг үнийг `priceFrom` талбарт текстээр бичнэ
- * (жишээ: "сард 150 000₮-с"). `null` үед "Үнийн санал авах" / "Үнэ авах" гэж харагдана.
+ * (жишээ: "6 000₮ / хүргэлтээс"). `null` үед "Үнийн санал авах" / "Үнэ авах" гэж харагдана.
  */
 
 export type ServiceSlug = "delivery" | "web" | "automation";
@@ -13,6 +13,8 @@ export interface Package {
   features: string[];
   /** Жишиг "-с эхлэх" үнэ; null бол үнийн санал авна */
   priceFrom: string | null;
+  /** Үнийн доорх жижиг тайлбар */
+  priceNote?: string;
   highlight?: boolean;
 }
 
@@ -103,7 +105,8 @@ export const packages: Package[] = [
     name: "Эхлэл",
     tagline: "Дөнгөж эхэлж буй дэлгүүрт",
     features: ["Өдөрт 5 хүртэл захиалга", "Долоо хоног бүр тайлан", "Хот доторх хүргэлт", "Утас, чатаар захиалга өгөх"],
-    priceFrom: "сард 150 000₮-с",
+    priceFrom: "6 000₮ / хүргэлтээс",
+    priceNote: "Дүүрэг, зайнаас хамаарна",
   },
   {
     id: "delivery-growth",
@@ -112,6 +115,7 @@ export const packages: Package[] = [
     tagline: "Тогтмол борлуулалттай бизнест",
     features: ["Хязгааргүй захиалга", "Өдөр бүр тайлан", "Захиалгын портал", "Хүргэлтийн явцыг хянах"],
     priceFrom: null,
+    priceNote: "Хүргэлт бүрээр, сарын тоо хэмжээнээс хамаарч хямдарна",
     highlight: true,
   },
   {
@@ -121,6 +125,7 @@ export const packages: Package[] = [
     tagline: "Агуулахаа ч бидэнд даатга",
     features: ["Өсөлт багцын бүх боломж", "Агуулахын бүртгэл", "Харилцагчид SMS мэдэгдэл", "Сарын тайлан"],
     priceFrom: null,
+    priceNote: "Хүргэлт бүрээр, сарын тоо хэмжээнээс хамаарч хямдарна",
   },
   // Вэб
   {
@@ -199,6 +204,7 @@ export interface CompareRow {
 
 export const compareRows: Record<ServiceSlug, CompareRow[]> = {
   delivery: [
+    { label: "Нэг хүргэлтийн үнэ", values: ["6 000₮-с", "Санал", "Санал"] },
     { label: "Захиалгын хязгаар", values: ["Өдөрт 5 хүртэл", "Хязгааргүй", "Хязгааргүй"] },
     { label: "Тайлангийн давтамж", values: ["7 хоног бүр", "Өдөр бүр", "Өдөр бүр + сарын"] },
     { label: "Хот доторх хүргэлт", values: [true, true, true] },
@@ -207,7 +213,7 @@ export const compareRows: Record<ServiceSlug, CompareRow[]> = {
     { label: "Хүргэлтийн явцыг хянах", values: [false, true, true] },
     { label: "Харилцагчид SMS мэдэгдэл", values: [false, false, true] },
     { label: "Агуулахын бүртгэл", values: [false, false, true] },
-    { label: "Дэмжлэгийн цаг", values: ["Ажлын өдөр 10–18", "Өдөр бүр 09–21", "Өдөр бүр 09–21"] },
+    { label: "Дэмжлэгийн цаг", values: ["Өдөр бүр 10–20, чатаар", "Өдөр бүр 10–20, чатаар", "Өдөр бүр 10–20, чатаар"] },
   ],
   web: [
     { label: "Хуудасны тоо", values: ["1", "Хязгааргүй", "Хэрэгцээгээр"] },
