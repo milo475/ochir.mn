@@ -39,10 +39,10 @@ export function WorkGrid() {
               Өөрийн брэнд, бараагаар шууд тохируулж өгөх бэлэн загварууд — захиалга бодитоор биелэхгүй.
             </p>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className={`mt-10 grid gap-5 md:grid-cols-2 ${demoWork.length >= 3 ? "lg:grid-cols-3" : ""}`}>
             {demoWork.map((w, i) => (
               <Reveal key={w.slug} delay={i * 0.08} className="min-w-0">
-                <WorkCard w={w} sizes="(min-width: 768px) 50vw, 100vw" demo />
+                <WorkCard w={w} sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" demo />
               </Reveal>
             ))}
           </div>

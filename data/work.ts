@@ -65,6 +65,16 @@ export const work: WorkItem[] = [
     note: "Демо — захиалга бодитоор биелэхгүй",
   },
   {
+    slug: "delguur",
+    kind: "demo",
+    name: "Хувцасны дэлгүүр",
+    tag: "Демо хувилбар",
+    summary: "Хувцасны онлайн дэлгүүрийн загвар: ангилал, хямдрал, сагс, QPay төлбөр. Таны брэнд, бараагаар тохируулна.",
+    image: "/work/delguur.png",
+    url: "https://delguur-production-198d.up.railway.app",
+    note: "Демо — захиалга бодитоор биелэхгүй",
+  },
+  {
     slug: "electronics",
     kind: "demo",
     name: "Цахилгаан барааны дэлгүүр",
