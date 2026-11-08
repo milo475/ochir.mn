@@ -8,24 +8,24 @@ export function Hero() {
     <section className="relative overflow-hidden">
       <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" aria-hidden="true" />
       <div
-        className="pointer-events-none absolute -top-40 right-[-20%] h-[520px] w-[520px] rounded-full bg-accent/10 blur-[120px]"
+        className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[720px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"
         aria-hidden="true"
       />
-      <div className="container-page relative grid items-center gap-6 pb-0 pt-8 sm:pt-14 lg:grid-cols-[1fr_1.25fr] lg:gap-6 lg:pt-12">
-        <div>
+      <div className="container-page relative pb-0 pt-10 sm:pt-14 lg:pt-16">
+        <div className="mx-auto max-w-[720px] text-center">
           <p className="inline-flex items-center gap-2 rounded-full border border-line bg-card/70 px-3 py-1 text-xs text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Улаанбаатарын онлайн бизнест
           </p>
-          <h1 className="mt-5 text-[34px] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[44px] xl:text-[48px]">
+          <h1 className="mt-5 text-balance text-[34px] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[56px]">
             Хүргэлт, вэб, автоматжуулалт —{" "}
             <span className="text-accent">нэг багцаар</span>
           </h1>
-          <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted sm:text-lg">
+          <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-muted sm:text-lg">
             Төлбөр нь баталгаажсан захиалгыг тань бид хурдан, найдвартай хүргэнэ — та зөвхөн борлуулалтаа өсгөхөд
             анхаар.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Link href="/order" className="btn-primary">
               Багцаа сонгох
               <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
@@ -37,12 +37,12 @@ export function Hero() {
               Messenger-ээр бичих
             </a>
           </div>
-          <p className="mt-10 flex items-center gap-2 text-sm text-muted">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+          <p className="mt-6 text-sm text-muted">
+            <span className="mr-2 inline-block h-1.5 w-1.5 -translate-y-0.5 rounded-full bg-accent" aria-hidden="true" />
             Улаанбаатар · Instagram, Facebook дэлгүүрүүдэд зориулав
           </p>
         </div>
-        <div className="lg:-mr-6 xl:-mr-20">
+        <div className="mx-auto mt-8 max-w-[1200px] sm:mt-10">
           <IsometricCity />
         </div>
       </div>

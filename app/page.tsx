@@ -2,7 +2,6 @@ import { Hero } from "@/components/home/Hero";
 import { Familiar } from "@/components/home/Familiar";
 import { ServiceCases } from "@/components/home/ServiceCases";
 import { TrialTicket } from "@/components/home/TrialTicket";
-import { HowItWorks } from "@/components/home/HowItWorks";
 import { PackagesPreview } from "@/components/home/PackagesPreview";
 import { Faq } from "@/components/home/Faq";
 import { faq } from "@/data/faq";
@@ -31,7 +30,6 @@ export default function HomePage() {
       <Hero />
       <Familiar />
       <ServiceCases />
-      <HowItWorks />
       <TrialTicket />
       <PackagesPreview />
       <Faq />
