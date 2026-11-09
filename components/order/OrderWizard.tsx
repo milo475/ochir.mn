@@ -44,7 +44,7 @@ export function OrderWizard() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const firstRender = useRef(true);
 
-  // ?service=delivery&plan=delivery-growth (хуучин: &package=) — багцын картаас ирсэн бол урьдчилан сонгоно
+  // ?service=delivery&plan=pro (хуучин: &package=, хуучин id-г getPackage хөрвүүлнэ) — багцын картаас ирсэн бол урьдчилан сонгоно
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const svc = q.get("service");

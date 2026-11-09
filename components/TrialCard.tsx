@@ -19,6 +19,7 @@ const trialLeft = unstable_cache(
   { revalidate: 60 },
 );
 
+/** "Эхний 10 хүргэлт үнэгүй" санал (Plus багц) — улбар шар зөвхөн товчин дээр */
 export async function TrialCard() {
   const left = await trialLeft();
   const over = left === 0;
@@ -28,13 +29,13 @@ export async function TrialCard() {
         <div className="max-w-xl">
           <p className="text-sm text-muted">Эхний {TRIAL_SLOTS} дэлгүүрт</p>
           <h2 id="trial-title" className="mt-2 text-[24px] font-bold leading-tight tracking-tight text-ink sm:text-[28px]">
-            7 хоногийн үнэгүй туршилт
+            Эхний {TRIAL_SLOTS} хүргэлт үнэгүй
           </h2>
-          <p className="mt-3 text-[16px] leading-relaxed text-text">Таалагдаагүй бол зогсооно — асуулт хариулт байхгүй.</p>
+          <p className="mt-3 text-[16px] leading-relaxed text-text">Plus багцаар. Гэрээ, урьдчилгаа байхгүй — таалагдаагүй бол зогсооно.</p>
         </div>
         <div className="flex shrink-0 flex-col items-start gap-2 md:items-center">
-          <Link href="/order?service=delivery" className="btn-primary">
-            {over ? "Туршилт дууссан — ердийн багцаар бүртгүүлнэ үү" : "Туршилтад бүртгүүлэх →"}
+          <Link href="/order?service=delivery&plan=plus" className="btn-primary">
+            {over ? "Туршилт дууссан — ердийн багцаар бүртгүүлнэ үү" : "Эхлэх →"}
           </Link>
           {left !== null && !over && (
             <p className="text-xs text-muted">

@@ -1,6 +1,6 @@
 /**
  * Үйлчилгээ, багцын мэдээлэл. Жишиг үнийг `priceFrom` талбарт текстээр бичнэ
- * (жишээ: "6 000₮ / хүргэлтээс"). `null` үед "Үнийн санал авах" / "Үнэ авах" гэж харагдана.
+ * (жишээ: "7 000₮ / хүргэлт"). `null` үед "Үнийн санал авах" / "Үнэ авах" гэж харагдана.
  */
 
 export type ServiceSlug = "delivery" | "web" | "automation";
@@ -11,7 +11,7 @@ export interface Package {
   name: string;
   tagline: string;
   features: string[];
-  /** Дээд багцын жагсаалтын эхний мөр — "Өсөлтийн бүх боломж, дээр нь:" */
+  /** Дээд багцын жагсаалтын эхний мөр — "Plus-ийн бүх боломж, дээр нь:" */
   includes?: string;
   /** Жишиг "-с эхлэх" үнэ; null бол үнийн санал авна */
   priceFrom: string | null;
@@ -100,35 +100,52 @@ export const services: Service[] = [
 ];
 
 export const packages: Package[] = [
-  // Хүргэлт
+  // Хүргэлт — үйлчилгээний 3 түвшин (тоо хэмжээний шатлал биш)
   {
-    id: "delivery-start",
+    id: "plus",
     service: "delivery",
-    name: "Эхлэл",
-    tagline: "Дөнгөж эхэлж буй дэлгүүрт",
-    features: ["Хот доторх хүргэлт", "Өдөрт 5 хүртэл захиалга", "Утас, чатаар захиалга өгөх", "Долоо хоног бүр тайлан", "Өдөр бүр 10–20 цагт чатаар дэмжлэг"],
-    priceFrom: "6 000₮ / хүргэлтээс",
-    priceNote: "Дүүрэг, зайнаас хамаарна",
+    name: "Plus",
+    tagline: "Дэлгүүрээсээ хүргүүлнэ",
+    features: [
+      "Та өдрийн захиалгуудаа (хаяг, бараа) бидэнд илгээнэ",
+      "Бид бүх барааг дэлгүүрээс тань нэг дор авна",
+      "Өдөртөө хот дотор хүргэнэ",
+      "Статус бүрийг Ochir системд шинэчилнэ",
+      "7 хоног бүр тайлан",
+      "Өдөр бүр 10–20 чатаар дэмжлэг",
+    ],
+    priceFrom: "7 000₮ / хүргэлт",
   },
   {
-    id: "delivery-growth",
+    id: "pro",
     service: "delivery",
-    name: "Өсөлт",
-    tagline: "Тогтмол борлуулалттай бизнест",
-    features: ["Хязгааргүй захиалга", "Хот доторх хүргэлт", "Утас, чатаар захиалга өгөх", "Өдөр бүр тайлан", "Ochir систем", "Хүргэлтийн явцыг хянах"],
-    priceFrom: "5 500₮ / хүргэлтээс",
-    priceNote: "сард 100+ захиалгад",
+    name: "Pro",
+    tagline: "Манай агуулахаас хүргүүлнэ",
+    includes: "Plus-ийн бүх боломж, дээр нь:",
+    features: [
+      "Бараагаа манай агуулахад урьдчилан хүргүүлнэ",
+      "Захиалга орж ирмэгц агуулахаас шууд гарна — дэлгүүрээс авах алхам алга",
+      "Үлдэгдлийг Ochir системээс бодит цагт харна",
+      "50 хайрцаг (≈2 м³) хүртэл хадгалалт багтсан",
+      "Хүргэх хугацаа богино (ихэвчлэн 2–4 цаг)",
+    ],
+    priceFrom: "9 000₮ / хүргэлт",
     highlight: true,
   },
   {
-    id: "delivery-full",
+    id: "max",
     service: "delivery",
-    name: "Бүрэн",
-    tagline: "Агуулахаа ч бидэнд даатга",
-    includes: "Өсөлтийн бүх боломж, дээр нь:",
-    features: ["Агуулахын бүртгэл", "Агуулахын үлдэгдлийг Ochir системээс харах", "Харилцагчид SMS мэдэгдэл", "Өдөр бүр + сарын тайлан"],
-    priceFrom: "5 000₮ / хүргэлтээс",
-    priceNote: "сард 300+ захиалгад",
+    name: "Max",
+    tagline: "Том оврын бараа",
+    features: [
+      "Нэг талдаа 2.2 м, 100 кг хүртэл",
+      "2 хүн зөөнө, ачааны тээвэр",
+      "Лифтгүй бол давхраар нэмэгдэнэ",
+      "Барааг зураглаж хүлээн авна, хүлээлгэн өгнө",
+      "Статус, тайлан Plus-тэй ижил",
+    ],
+    priceFrom: "20 000₮-с / хүргэлт",
+    priceNote: "хэмжээ, давхраас хамаарна",
   },
   // Вэб
   {
@@ -189,8 +206,16 @@ export function packagesFor(slug: ServiceSlug): Package[] {
   return packages.filter((p) => p.service === slug);
 }
 
+/** Хуучин хүргэлтийн багцын id → шинэ (хуучин захиалга, холбоосыг дэмжинэ) */
+export const LEGACY_PACKAGE_IDS: Record<string, string> = {
+  "delivery-start": "plus",
+  "delivery-growth": "pro",
+  "delivery-full": "max",
+};
+
 export function getPackage(id: string): Package | undefined {
-  return packages.find((p) => p.id === id);
+  const real = LEGACY_PACKAGE_IDS[id] ?? id;
+  return packages.find((p) => p.id === real);
 }
 
 /* ------------------------------------------------------------------ */
@@ -208,16 +233,15 @@ export interface CompareRow {
 
 export const compareRows: Record<ServiceSlug, CompareRow[]> = {
   delivery: [
-    { label: "Нэг хүргэлтийн үнэ", values: ["6 000₮-с", "5 500₮-с", "5 000₮-с"] },
-    { label: "Захиалгын хязгаар", values: ["Өдөрт 5 хүртэл", "Хязгааргүй", "Хязгааргүй"] },
-    { label: "Тайлангийн давтамж", values: ["7 хоног бүр", "Өдөр бүр", "Өдөр бүр + сарын"] },
-    { label: "Хот доторх хүргэлт", values: [true, true, true] },
-    { label: "Утас, чатаар захиалга өгөх", values: [true, true, true] },
-    { label: "Ochir систем", values: [false, true, true] },
-    { label: "Хүргэлтийн явцыг хянах", values: [false, true, true] },
-    { label: "Харилцагчид SMS мэдэгдэл", values: [false, false, true] },
-    { label: "Агуулахын бүртгэл", values: [false, false, true] },
-    { label: "Дэмжлэгийн цаг", values: ["Өдөр бүр 10–20, чатаар", "Өдөр бүр 10–20, чатаар", "Өдөр бүр 10–20, чатаар"] },
+    { label: "Нэг хүргэлтийн үнэ", values: ["7 000₮", "9 000₮", "20 000₮-с"] },
+    { label: "Барааг хаанаас авах", values: ["Дэлгүүрээс", "Манай агуулахаас", "Таны заасан хаягаас"] },
+    { label: "Агуулахад хадгалах", values: [false, "50 хайрцаг хүртэл", false] },
+    { label: "Барааны хэмжээ", values: ["Жижиг, дунд", "Жижиг, дунд", "Том (≤2.2 м, ≤100 кг)"] },
+    { label: "Хүргэх хугацаа", values: ["Өдөртөө", "2–4 цаг", "Тохирсон цагт"] },
+    { label: "Зөөгч", values: ["1", "1", "2"] },
+    { label: "Үлдэгдэл Ochir системд", values: [false, true, false] },
+    { label: "Статус, тайлан", values: [true, true, true] },
+    { label: "Дэмжлэг", values: ["Өдөр бүр 10–20, чатаар", "Өдөр бүр 10–20, чатаар", "Өдөр бүр 10–20, чатаар"] },
   ],
   web: [
     { label: "Хуудасны тоо", values: ["1", "Хязгааргүй", "Хэрэгцээгээр"] },
@@ -252,26 +276,17 @@ export interface PickerQuestion {
 export const pickerQuestions: Record<ServiceSlug, PickerQuestion[]> = {
   delivery: [
     {
-      q: "Өдөрт хэдэн захиалга ирдэг вэ?",
+      q: "Бараагаа хаана хадгалмаар вэ?",
       options: [
-        { label: "5 хүртэл", scores: { "delivery-start": 2 } },
-        { label: "6–20", scores: { "delivery-growth": 2 } },
-        { label: "20-оос дээш", scores: { "delivery-growth": 1, "delivery-full": 2 } },
+        { label: "Өөр дээрээ", scores: { plus: 2 } },
+        { label: "Манай агуулахад", scores: { pro: 2 } },
       ],
     },
     {
-      q: "Өөрийн жолоочтой юу?",
+      q: "Том оврын бараа байна уу?",
       options: [
-        { label: "Тийм, заримдаа тусламж хэрэгтэй", scores: { "delivery-start": 1 } },
-        { label: "Үгүй, бүгдийг даатгана", scores: { "delivery-growth": 1, "delivery-full": 1 } },
-      ],
-    },
-    {
-      q: "Тайлан хэр олон хэрэгтэй вэ?",
-      options: [
-        { label: "Долоо хоногт нэг", scores: { "delivery-start": 1 } },
-        { label: "Өдөр бүр", scores: { "delivery-growth": 1 } },
-        { label: "Өдөр бүр + агуулахын үлдэгдэл", scores: { "delivery-full": 2 } },
+        { label: "Тийм", scores: { max: 5 } },
+        { label: "Үгүй", scores: {} },
       ],
     },
   ],

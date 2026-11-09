@@ -174,7 +174,7 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
         {/* Аль нь надад тохирох вэ? */}
         <div className="card mx-auto mt-14 max-w-3xl p-6 sm:p-8">
           <h2 className="text-xl font-bold tracking-tight sm:text-2xl">Аль нь надад тохирох вэ?</h2>
-          <p className="mt-1 text-sm text-muted">3 асуултад хариулбал танд тохирох багцыг санал болгоно.</p>
+          <p className="mt-1 text-sm text-muted">{questions.length} асуултад хариулбал танд тохирох багцыг санал болгоно.</p>
           <ol className="mt-6 space-y-5">
             {questions.map((q, qi) =>
               qi <= answers.length ? (

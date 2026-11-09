@@ -8,7 +8,7 @@ const FOOTNOTE: Record<ServiceSlug, string> = {
   automation: "FB/IG админ эрх хэрэгтэй",
 };
 
-/** "6 000₮ / хүргэлтээс" → ["6 000₮", "/ хүргэлтээс"] */
+/** "7 000₮ / хүргэлт" → ["7 000₮", "/ хүргэлт"] */
 function splitPrice(p: Package): { amount: string; unit: string; quote: boolean } {
   if (!p.priceFrom) return { amount: "Үнийн санал", unit: "хүсэлт илгээхэд 24 цагт", quote: true };
   const i = p.priceFrom.indexOf(" / ");

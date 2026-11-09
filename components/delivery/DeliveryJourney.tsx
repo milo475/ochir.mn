@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 
 const ic = { fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
-const steps: { title: string; text: string; who: string; icon: React.ReactNode }[] = [
+const steps: { title: string; text: React.ReactNode; who: string; icon: React.ReactNode }[] = [
   {
     title: "Харилцагч төлнө",
     text: "QPay, дансаар — танд шууд.",
@@ -29,7 +29,13 @@ const steps: { title: string; text: string; who: string; icon: React.ReactNode }
   },
   {
     title: "Хүргэгч авна",
-    text: "Дэлгүүрээс тань ирж авна.",
+    text: (
+      <>
+        Plus: дэлгүүрээс тань
+        <br />
+        Pro: манай агуулахаас
+      </>
+    ),
     who: "Ochir",
     icon: (
       <svg viewBox="0 0 32 32" className="h-7 w-7" aria-hidden="true">
