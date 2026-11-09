@@ -2,22 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Өнгөний токен — бүх хуудас эндээс уншина (happyhues palette 9-ийн бүтэц).
+ * Цайвар дэвсгэр дээр --accent өнгөтэй ТЕКСТ бичихгүй (тодрол 2.7:1);
+ * зайлшгүй бол --accent-strong (#C2410C) хэрэглэнэ.
+ */
 :root {
-  --bg: #0b1220;
-  --card: #111a2e;
-  --line: #1e2a44;
+  --bg: #eff0f3;
+  --surface: #fffffe;
+  --ink: #0d0d0d;
+  --text: #2a2a2a;
+  --muted: #6b6b6b;
+  --line: #d9dbe1;
   --accent: #ff6b2c;
-  --accent-soft: rgba(255, 107, 44, 0.14);
-  --text: #f5f7fa;
-  --muted: #9aa5b8;
+  --accent-ink: #0d0d0d;
+  --accent-strong: #c2410c;
+  --tertiary: #d9376e;
+  --canvas: #0b1220; /* ЗӨВХӨН изометрик зургийн хүрээ */
+
   /* Tailwind-ийн /opacity-д зориулсан RGB сувгууд */
-  --bg-rgb: 11 18 32;
-  --card-rgb: 17 26 46;
-  --line-rgb: 30 42 68;
+  --bg-rgb: 239 240 243;
+  --surface-rgb: 255 255 254;
+  --ink-rgb: 13 13 13;
+  --text-rgb: 42 42 42;
+  --muted-rgb: 107 107 107;
+  --line-rgb: 217 219 225;
   --accent-rgb: 255 107 44;
-  --text-rgb: 245 247 250;
-  --muted-rgb: 154 165 184;
-  color-scheme: dark;
+  --accent-ink-rgb: 13 13 13;
+  --accent-strong-rgb: 194 65 12;
+  --tertiary-rgb: 217 55 110;
+  --canvas-rgb: 11 18 32;
+  color-scheme: light;
 }
 
 html {
@@ -35,13 +50,19 @@ body {
   overflow-x: hidden;
 }
 
+h1,
+h2,
+h3 {
+  color: rgb(var(--ink-rgb));
+}
+
 ::selection {
   background: var(--accent);
-  color: #0b1220;
+  color: var(--accent-ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -51,42 +72,54 @@ body {
     @apply mx-auto w-full max-w-page px-4 sm:px-6;
   }
   .btn {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-5 text-[15px] font-semibold transition-[transform,background-color,box-shadow,color] duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg px-5 text-[15px] font-semibold transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn bg-accent text-[#0B1220] shadow-[0_8px_30px_-8px_rgba(255,107,44,0.6)] hover:bg-[#ff7f48];
+    @apply btn bg-accent text-accent-ink hover:bg-[#f25f20];
   }
   .btn-ghost {
-    @apply btn border border-line bg-card/60 text-ink hover:border-muted/50;
+    @apply btn border border-ink bg-surface text-ink hover:bg-bg;
+  }
+  .btn-dark {
+    @apply btn bg-ink text-surface hover:bg-text;
   }
   .card {
-    @apply rounded-2xl border border-line bg-card;
+    @apply rounded-xl border border-line bg-surface;
   }
-  .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.14em] text-accent;
+  /* Холбоос карт: hover-т зөвхөн хүрээ --ink болно */
+  .card-hover {
+    @apply transition-colors duration-150 hover:border-ink;
+  }
+  /* Текст холбоос: --ink текст, --accent доогуур зураас */
+  .link {
+    @apply font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:decoration-ink;
   }
   .field {
-    @apply block w-full min-h-[48px] rounded-xl border border-line bg-bg px-4 text-[16px] text-ink placeholder:text-muted/60 transition-colors focus:border-accent focus:outline-none;
+    @apply block w-full min-h-[48px] rounded-lg border border-line bg-surface px-4 text-[16px] text-ink placeholder:text-muted transition-colors focus:border-ink focus:outline-none;
+  }
+  /* Хавтгай төлөвийн шошго */
+  .tag {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold;
   }
 }
 
-/* Карт hover-т 2° изометрик хазайлт */
-.tilt {
-  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.25s, box-shadow 0.35s;
-  transform: perspective(900px) rotateX(0deg) rotateZ(0deg);
-}
-@media (hover: hover) {
-  .tilt:hover {
-    transform: perspective(900px) rotateX(2deg) rotateY(-2deg) rotateZ(-0.5deg) translateY(-4px);
-    border-color: rgba(255, 107, 44, 0.45);
-    box-shadow: 0 24px 50px -24px rgba(255, 107, 44, 0.35);
-  }
-}
-
-.bg-grid {
-  background-image: linear-gradient(rgba(154, 165, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(154, 165, 184, 0.06) 1px, transparent 1px);
-  background-size: 44px 44px;
+/*
+ * Изометрик "дэлгэц". Зургууд хар хөх дэвсгэрт зурагдсан тул дотор нь
+ * хуучин бараан токенуудыг буцааж тогтооно (iso компонентуудыг өөрчлөхгүй).
+ */
+.canvas {
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  color: #f5f7fa;
+  --bg-rgb: 11 18 32;
+  --surface-rgb: 17 26 46;
+  --line-rgb: 30 42 68;
+  --ink-rgb: 245 247 250;
+  --text-rgb: 245 247 250;
+  --muted-rgb: 154 165 184;
+  --accent-ink-rgb: 11 18 32;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -99,9 +132,6 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  .tilt:hover {
-    transform: none;
   }
 }
 
@@ -118,4 +148,3 @@ body {
   from { opacity: 0; transform: translateY(6px) scale(0.96); }
   to { opacity: 1; transform: none; }
 }
-

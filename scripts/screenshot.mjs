@@ -44,6 +44,24 @@ for (const vp of viewports) {
   await scrollThrough(page);
   await page.screenshot({ path: `${OUT}/home-${vp.name}.png`, fullPage: true });
 
+  // Үндсэн 6 хуудас: бүтэн скриншот + хуудас бүрийн хэвтээ гүйлт
+  const pages = [
+    ["home", "/"],
+    ["delivery", "/services/delivery"],
+    ["web", "/services/web"],
+    ["automation", "/services/automation"],
+    ["pricing", "/pricing"],
+    ["faq", "/faq"],
+  ];
+  for (const [name, path] of pages) {
+    await page.goto(`${BASE}${path}`, { waitUntil: "networkidle" });
+    await page.waitForTimeout(800);
+    await scrollThrough(page);
+    await page.screenshot({ path: `${OUT}/page-${name}-${vp.name}.png`, fullPage: true });
+    const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    console.log(`${vp.name} ${path}: hOverflow=${over}px`);
+  }
+
   await page.goto(`${BASE}/order`, { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
   await page.evaluate(() => window.scrollTo(0, 0));

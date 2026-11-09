@@ -24,11 +24,10 @@ export default function FaqPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="relative">
-        <div className="bg-grid pointer-events-none absolute inset-x-0 top-0 h-80 [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" aria-hidden="true" />
         <div className="container-page relative pt-8 sm:pt-12">
           <Breadcrumb items={[{ href: "/faq", label: "Асуулт" }]} />
           <div className="mx-auto mt-10 max-w-2xl text-center">
-            <h1 className="text-[34px] font-extrabold leading-tight tracking-tight sm:text-5xl">Асуулт, хариулт</h1>
+            <h1 className="text-[34px] font-bold leading-tight tracking-tight sm:text-5xl">Асуулт, хариулт</h1>
             <p className="mt-4 text-[16px] leading-relaxed text-muted sm:text-lg">Хайж олоорой — эсвэл ангиллаар нь гүйлгэж үзээрэй.</p>
           </div>
           <FaqBrowser />
@@ -36,7 +35,7 @@ export default function FaqPage() {
       </section>
 
       <section className="container-page mt-16 sm:mt-24">
-        <div className="flex flex-col items-center gap-5 rounded-3xl border border-line bg-card px-6 py-10 text-center sm:py-12">
+        <div className="flex flex-col items-center gap-5 card px-6 py-10 text-center sm:py-12">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Хариулт олдсонгүй юу?</h2>
           <p className="max-w-md text-[15px] text-muted">Асуултаа Messenger-ээр бичээрэй — өдөр бүр 10–20 цагт чатаар хариулна.</p>
           <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">

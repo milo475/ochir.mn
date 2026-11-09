@@ -23,7 +23,7 @@ export function LoginForm() {
         <input id="password" name="password" type="password" required autoComplete="current-password" className="field" autoFocus />
       </div>
       {state?.error && (
-        <p role="alert" className="text-sm text-red-300">
+        <p role="alert" className="text-sm text-red-700">
           {state.error}
         </p>
       )}

@@ -25,23 +25,21 @@ export default function WebPage() {
   return (
     <>
       <section className="relative overflow-hidden">
-        <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_right,black_20%,transparent_70%)]" aria-hidden="true" />
         <div className="container-page relative pt-8 sm:pt-12">
           <Breadcrumb items={[{ href: "/services/web", label: "Вэб & систем" }]} />
           {/* Хүргэлтийн хуудаснаас ялгаатай: дүрслэл зүүн талд, текст баруун талд */}
-          <div className="mt-8 grid items-center gap-6 lg:grid-cols-[1.15fr_1fr] lg:gap-6">
-            <div className="order-2 -mx-4 sm:mx-0 lg:order-1 lg:-ml-10">
+          <div className="mt-8 grid items-center gap-6 lg:grid-cols-[1.15fr_1fr] lg:gap-10">
+            <div className="canvas order-2 p-2 sm:p-4 lg:order-1">
               <IsometricStudio />
             </div>
             <div className="order-1 lg:order-2">
-              <p className="inline-flex items-center gap-2 rounded-full border border-line bg-card/70 px-3 py-1 text-xs text-muted">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+              <p className="inline-flex items-center rounded-full border border-line px-3 py-1 text-xs text-muted">
                 Landing · Онлайн дэлгүүр · Систем
               </p>
-              <h1 className="mt-5 text-balance text-[34px] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[52px]">
-                <span className="whitespace-nowrap">Instagram-аас</span> гадуур ч <span className="text-accent">захиалга ав</span>
+              <h1 className="mt-5 text-balance text-[34px] font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[52px]">
+                <span className="whitespace-nowrap">Instagram-аас</span> гадуур ч <span className="text-accent-strong">захиалга ав</span>
               </h1>
-              <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted sm:text-lg">
+              <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-text sm:text-lg">
                 QPay-тэй өөрийн сайт — домэйн, хостинг нь таны нэр дээр, бараа, үнээ өөрөө удирдана.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">

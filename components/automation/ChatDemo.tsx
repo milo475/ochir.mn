@@ -79,15 +79,15 @@ export function ChatDemo() {
 
   return (
     <div className="mx-auto w-full max-w-[460px]">
-      <div className="overflow-hidden rounded-3xl border border-line bg-card shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]">
+      <div className="card overflow-hidden">
         {/* толгой */}
         <div className="flex items-center gap-3 border-b border-line px-4 py-3">
-          <span className="relative grid h-10 w-10 place-items-center rounded-full bg-accent text-sm font-black text-bg" aria-hidden="true">
+          <span className="relative grid h-10 w-10 place-items-center rounded-full bg-accent text-sm font-bold text-accent-ink" aria-hidden="true">
             Д
-            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-card bg-[#3DDC84]" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-surface bg-ink" />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold leading-tight">Таны дэлгүүр</p>
+            <p className="text-sm font-semibold leading-tight text-ink">Таны дэлгүүр</p>
             <p className="text-xs text-muted">Messenger · автомат хариулт идэвхтэй</p>
           </div>
           <span className="inline-flex items-center gap-1 text-xs font-semibold text-ink">
@@ -103,25 +103,25 @@ export function ChatDemo() {
           {msgs.map((m) =>
             m.from === "order" ? (
               <div key={m.id} className="flex justify-end">
-                <div className="animate-[pop_.35s_ease-out] rounded-2xl border border-accent/50 bg-accent/10 px-4 py-3 text-sm">
-                  <p className="font-bold text-accent">✓ Захиалга бүртгэгдлээ · {m.text}</p>
-                  <p className="mt-0.5 text-xs text-muted">Google Sheets → Хүргэлт рүү дамжлаа</p>
+                <div className="animate-[pop_.35s_ease-out] rounded-xl bg-accent-soft px-4 py-3 text-sm text-ink">
+                  <p className="font-bold text-ink">✓ Захиалга бүртгэгдлээ · {m.text}</p>
+                  <p className="mt-0.5 text-xs text-ink">Google Sheets → Хүргэлт рүү дамжлаа</p>
                 </div>
               </div>
             ) : m.from === "user" ? (
               <div key={m.id} className="flex">
-                <span className="max-w-[82%] rounded-2xl rounded-bl-md bg-line px-3.5 py-2 text-[15px] leading-snug">{m.text}</span>
+                <span className="max-w-[82%] rounded-xl rounded-bl-md border border-line px-3.5 py-2 text-[15px] leading-snug">{m.text}</span>
               </div>
             ) : (
               <div key={m.id} className="flex flex-col items-end gap-1">
-                <span className="max-w-[85%] rounded-2xl rounded-br-md bg-accent px-3.5 py-2 text-[15px] font-medium leading-snug text-bg">{m.text}</span>
+                <span className="max-w-[85%] rounded-xl rounded-br-md bg-bg px-3.5 py-2 text-[15px] leading-snug text-ink">{m.text}</span>
                 <span className="text-[10px] text-muted">Автомат хариулт</span>
               </div>
             ),
           )}
           {typing && (
             <div className="flex justify-end">
-              <span className="flex items-center gap-1 rounded-2xl rounded-br-md bg-accent/15 px-4 py-3" role="status" aria-label="Бот бичиж байна…">
+              <span className="flex items-center gap-1 rounded-xl rounded-br-md bg-bg px-4 py-3" role="status" aria-label="Бот бичиж байна…">
                 <span className="typing-dot h-1.5 w-1.5 rounded-full bg-accent" />
                 <span className="typing-dot h-1.5 w-1.5 rounded-full bg-accent [animation-delay:150ms]" />
                 <span className="typing-dot h-1.5 w-1.5 rounded-full bg-accent [animation-delay:300ms]" />
@@ -141,7 +141,7 @@ export function ChatDemo() {
                 onClick={() => ask(q)}
                 disabled={typing}
                 className={`min-h-[44px] rounded-xl border px-3 text-left text-[13px] font-medium transition-colors disabled:opacity-50 sm:text-sm ${
-                  used.includes(q.key) ? "border-line text-muted" : "border-accent/50 text-ink hover:bg-accent/10"
+                  used.includes(q.key) ? "border-line text-muted" : "border-line text-ink hover:border-ink"
                 }`}
               >
                 {q.label}
@@ -153,7 +153,7 @@ export function ChatDemo() {
       <div className="mt-3 flex items-center justify-between gap-3 px-1 text-xs text-muted">
         <span>Жишээ демо — бодит бот таны бараа, нөхцөлөөр хариулна.</span>
         {msgs.length > INITIAL.length && (
-          <button type="button" onClick={reset} className="shrink-0 font-semibold text-accent hover:underline">
+          <button type="button" onClick={reset} className="link shrink-0">
             Дахин эхлэх
           </button>
         )}

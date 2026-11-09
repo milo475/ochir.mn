@@ -70,7 +70,7 @@ export function FaqBrowser() {
                     href={`#${c.id}`}
                     aria-current={on ? "true" : undefined}
                     className={`flex items-center justify-between gap-3 whitespace-nowrap rounded-xl border px-3.5 py-2.5 text-sm transition-colors lg:border-0 lg:border-l-2 lg:rounded-none ${
-                      on ? "border-accent bg-card text-ink" : "border-line text-muted hover:text-ink"
+                      on ? "border-ink bg-surface text-ink lg:border-accent" : "border-line text-muted hover:text-ink"
                     } ${count === 0 ? "pointer-events-none opacity-40" : ""}`}
                   >
                     {c.title}
@@ -92,7 +92,7 @@ export function FaqBrowser() {
             </section>
           ))}
           {filtered.length === 0 && (
-            <p className="rounded-2xl border border-dashed border-line p-8 text-center text-muted">
+            <p className="rounded-xl border border-dashed border-line p-8 text-center text-muted">
               &ldquo;{query}&rdquo; гэсэн асуулт олдсонгүй. Доорх товчоор бидэнд шууд бичээрэй.
             </p>
           )}

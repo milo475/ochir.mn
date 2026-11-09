@@ -1,12 +1,8 @@
-/**
- * Ochir брэнд тэмдэг (O-тэмдэг). public/brand/mark-*.svg-тэй ижил геометр.
- * Хар хөх дэвсгэр дээр цэг харагдахын тулд цэгийг цайвар өнгөөр зурна
- * (mark-transparent.svg-ийн цэг #0B1220 тул бараан дэвсгэрт харагдахгүй).
- */
+/** Ochir брэнд тэмдэг (O-тэмдэг). public/brand/mark-transparent.svg-тэй ижил (цайвар дэвсгэрт). */
 export function BrandMark({
   size = 28,
   arc = "#FF6B2C",
-  dot = "#F5F7FA",
+  dot = "#0B1220",
   className = "",
   dotClassName = "",
 }: {
@@ -27,12 +23,12 @@ export function BrandMark({
 /** Header: тэмдэг (28px) + "Ochir". Hover-т цэг 1.1 дахин томорч буцна. */
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`group inline-flex items-center gap-2 font-extrabold tracking-tight ${className}`}>
+    <span className={`group inline-flex items-center gap-2 tracking-tight ${className}`}>
       <BrandMark
         size={28}
         dotClassName="origin-center transition-transform duration-200 ease-out [transform-box:fill-box] group-hover:scale-110"
       />
-      <span className="text-lg leading-none">Ochir</span>
+      <span className="text-lg font-semibold leading-none text-ink">Ochir</span>
     </span>
   );
 }

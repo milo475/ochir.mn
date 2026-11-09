@@ -14,10 +14,10 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Админ", robots: { index: false, follow: false } };
 
 const STATUS_STYLE: Record<OrderStatus, string> = {
-  NEW: "bg-accent text-bg",
-  CONTACTED: "bg-sky-400/15 text-sky-300",
-  ACTIVE: "bg-emerald-400/15 text-emerald-300",
-  CLOSED: "bg-muted/15 text-muted",
+  NEW: "bg-accent text-accent-ink",
+  CONTACTED: "border border-sky-700 text-sky-800",
+  ACTIVE: "border border-emerald-700 text-emerald-800",
+  CLOSED: "border border-line text-muted",
 };
 
 const FILTERS: (OrderStatus | "ALL")[] = ["ALL", "NEW", "CONTACTED", "ACTIVE", "CLOSED"];
@@ -39,7 +39,7 @@ export default async function AdminPage({ searchParams }: { searchParams: { stat
       <Shell>
         <div className="card mx-auto mt-20 max-w-sm p-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/mark-dark.svg" width={64} height={64} alt="Ochir" className="mx-auto block rounded-2xl" />
+          <img src="/brand/mark-dark.svg" width={64} height={64} alt="Ochir" className="mx-auto block rounded-xl" />
           <h1 className="mt-6 text-center text-xl font-bold">Админ нэвтрэх</h1>
           <LoginForm />
         </div>
@@ -75,7 +75,7 @@ export default async function AdminPage({ searchParams }: { searchParams: { stat
             <Link
               key={f}
               href={f === "ALL" ? "/admin" : `/admin?status=${f}`}
-              className={`shrink-0 rounded-full border px-3.5 py-1.5 text-sm ${active ? "border-accent bg-accent-soft text-accent" : "border-line text-muted hover:text-ink"}`}
+              className={`shrink-0 rounded-full border px-3.5 py-1.5 text-sm ${active ? "border-ink bg-surface text-ink" : "border-line text-muted hover:text-ink"}`}
             >
               {f === "ALL" ? "Бүгд" : STATUS_LABEL[f]} <span className="ml-1 opacity-70">{f === "ALL" ? total : countOf(f)}</span>
             </Link>
@@ -102,7 +102,7 @@ export default async function AdminPage({ searchParams }: { searchParams: { stat
                   href={/^https?:\/\//.test(o.socialLink) ? o.socialLink : `https://${o.socialLink.replace(/^@/, "instagram.com/")}`}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
-                  className="mt-0.5 block truncate text-sm text-accent hover:underline"
+                  className="mt-0.5 block truncate text-sm text-ink underline decoration-accent underline-offset-2"
                 >
                   {o.socialLink}
                 </a>

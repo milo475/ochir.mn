@@ -23,7 +23,7 @@ export function WeeklyReport() {
           <span className="block text-sm font-semibold">7 хоногийн хүргэлт</span>
           <span className="mt-0.5 block text-2xl font-bold">{total}</span>
         </span>
-        <span className="rounded-full border border-muted/40 px-2 py-0.5 text-[11px] text-muted">жишээ</span>
+        <span className="tag border-line text-muted">жишээ</span>
       </figcaption>
       <svg viewBox={`0 0 ${W} ${H + 22}`} className="mt-4 h-auto w-full" role="img" aria-label={`Жишээ: долоо хоногт ${total} хүргэлт, хамгийн их нь Бямба гарагт ${max}`}>
         {week.map((w, i) => {
@@ -31,11 +31,11 @@ export function WeeklyReport() {
           const x = i * (bw + gap);
           return (
             <g key={w.d}>
-              <rect x={x} y={H - h} width={bw} height={h} rx="5" fill="#FF6B2C" opacity={w.v === max ? 1 : 0.55} />
-              <text x={x + bw / 2} y={H - h - 5} textAnchor="middle" fontSize="11" fill="#F5F7FA" fontWeight="600">
+              <rect x={x} y={H - h} width={bw} height={h} rx="5" className="fill-accent" opacity={w.v === max ? 1 : 0.55} />
+              <text x={x + bw / 2} y={H - h - 5} textAnchor="middle" fontSize="11" className="fill-ink" fontWeight="600">
                 {w.v}
               </text>
-              <text x={x + bw / 2} y={H + 16} textAnchor="middle" fontSize="11" fill="#9AA5B8">
+              <text x={x + bw / 2} y={H + 16} textAnchor="middle" fontSize="11" className="fill-muted">
                 {w.d}
               </text>
             </g>

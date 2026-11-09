@@ -24,16 +24,14 @@ export default function AutomationPage() {
   return (
     <>
       <section className="relative overflow-hidden">
-        <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_65%)]" aria-hidden="true" />
-        <div className="pointer-events-none absolute left-1/2 top-40 h-[420px] w-[620px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]" aria-hidden="true" />
         <div className="container-page relative pt-8 sm:pt-12">
           <Breadcrumb items={[{ href: "/services/automation", label: "AI автоматжуулалт" }]} />
           {/* Демо нь hero өөрөө — текст дээр, чат голд */}
           <div className="mx-auto mt-10 max-w-2xl text-center">
-            <h1 className="text-balance text-[34px] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[52px]">
-              Шөнийн 2 цагт ч <span className="text-accent">хариулдаг худалдагч</span>
+            <h1 className="text-balance text-[34px] font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[52px]">
+              Шөнийн 2 цагт ч <span className="text-accent-strong">хариулдаг худалдагч</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-muted sm:text-lg">
+            <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-text sm:text-lg">
               Messenger, Instagram-д 24/7 хариулж, захиалгыг автоматаар бүртгэнэ. Доор өөрөө туршаад үз.
             </p>
           </div>

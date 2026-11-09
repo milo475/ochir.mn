@@ -12,8 +12,7 @@ export default function OrderPage() {
   return (
     <div className="container-page py-10 sm:py-16">
       <div className="mx-auto mb-8 max-w-3xl">
-        <p className="eyebrow">Захиалга</p>
-        <h1 className="mt-3 text-[28px] font-extrabold leading-tight tracking-tight sm:text-4xl">Багцаа сонгоод илгээгээрэй</h1>
+        <h1 className="mt-3 text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">Багцаа сонгоод илгээгээрэй</h1>
         <p className="mt-3 text-[15px] text-muted sm:text-base">4 алхам, 1 минут. Төлбөр одоо төлөхгүй — эхлээд бид үнийн санал илгээнэ.</p>
       </div>
       <OrderWizard />

@@ -61,15 +61,14 @@ export function Integrations() {
   return (
     <section aria-labelledby="int-title" className="container-page mt-16 sm:mt-24">
       <Reveal className="max-w-2xl">
-        <p className="eyebrow">Холболт</p>
-        <h2 id="int-title" className="mt-3 text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">
+        <h2 id="int-title" className="text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">
           Хаана холбогддог вэ?
         </h2>
       </Reveal>
       <ul className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {items.map((it, i) => (
-          <Reveal as="li" key={it.name} delay={i * 0.05} className={`card flex flex-col items-start gap-3 p-5 ${i === 4 ? "col-span-2 sm:col-span-1" : ""}`}>
-            <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent-soft text-accent">{it.icon}</span>
+          <Reveal as="li" key={it.name} className={`card flex flex-col items-start gap-3 p-5 ${i === 4 ? "col-span-2 sm:col-span-1" : ""}`}>
+            <span className="text-ink">{it.icon}</span>
             <span>
               <span className="block font-semibold leading-tight">{it.name}</span>
               <span className="mt-1 block text-sm text-muted">{it.text}</span>

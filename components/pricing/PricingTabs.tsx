@@ -24,7 +24,7 @@ function Cell({ v }: { v: CompareCell }) {
     );
   if (v === false)
     return (
-      <span className="text-muted/60" role="img" aria-label="Багтаагүй">
+      <span className="text-muted" role="img" aria-label="Багтаагүй">
         —
       </span>
     );
@@ -65,7 +65,7 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
 
   return (
     <>
-      <div role="tablist" aria-label="Үйлчилгээ" className="mx-auto mt-8 flex w-full max-w-xl rounded-2xl border border-line bg-card p-1">
+      <div role="tablist" aria-label="Үйлчилгээ" className="mx-auto mt-8 flex w-full max-w-xl rounded-xl border border-line bg-surface p-1">
         {services.map((s) => {
           const on = s.slug === tab;
           return (
@@ -77,8 +77,8 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
               aria-selected={on}
               aria-controls="pricing-panel"
               onClick={() => select(s.slug)}
-              className={`flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-xl px-2 text-[13px] font-semibold transition-colors sm:text-sm ${
-                on ? "bg-accent text-bg" : "text-muted hover:text-ink"
+              className={`flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-lg px-2 text-[13px] font-semibold transition-colors sm:text-sm ${
+                on ? "bg-accent text-accent-ink" : "text-text hover:text-ink"
               }`}
             >
               <ServiceIcon slug={s.slug} className="hidden h-4 w-4 sm:block" />
@@ -89,29 +89,29 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
       </div>
 
       <div id="pricing-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="mt-10">
-        <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <div className="card overflow-x-auto p-3 sm:p-5">
           <table className="w-full min-w-[500px] border-separate border-spacing-0 text-left">
             <caption className="sr-only">{TAB_LABEL[tab]} — багцуудын харьцуулалт</caption>
             <thead>
               <tr>
-                <th scope="col" className="sticky left-0 z-10 w-[34%] bg-bg pb-4 pr-2 align-bottom text-sm font-medium text-muted">
+                <th scope="col" className="sticky left-0 z-10 w-[34%] bg-surface pb-4 pr-2 align-bottom text-sm font-medium text-muted">
                   Боломж
                 </th>
                 {pkgs.map((p) => (
                   <th
                     key={p.id}
                     scope="col"
-                    className={`rounded-t-2xl border-x border-t px-3 pb-4 pt-5 text-center align-bottom ${
-                      colOn(p.id, p.highlight) ? "border-accent/50 bg-accent/[0.07]" : "border-transparent"
+                    className={`rounded-t-xl border-x-2 border-t-2 px-3 pb-4 pt-5 text-center align-bottom ${
+                      colOn(p.id, p.highlight) ? "border-ink" : "border-transparent"
                     }`}
                   >
                     {colOn(p.id, p.highlight) && (
-                      <span className="mb-2 inline-block rounded-full bg-accent px-2 py-0.5 text-[10px] font-bold text-bg">
-                        {pick ? "Танд тохирно" : "Санал болгох"}
+                      <span className="tag mb-2 border-ink text-[10px] text-ink">
+                        {pick ? "Танд тохирно" : "Санал болгож байна"}
                       </span>
                     )}
-                    <span className="block text-base font-bold sm:text-lg">{p.name}</span>
-                    <span className="mt-1 block text-[13px] font-semibold text-accent">{p.priceFrom ?? PRICE_PLACEHOLDER}</span>
+                    <span className="block text-base font-bold text-ink sm:text-lg">{p.name}</span>
+                    <span className="mt-1 block text-[13px] font-semibold text-ink">{p.priceFrom ?? PRICE_PLACEHOLDER}</span>
                     {p.priceNote && <span className="mx-auto mt-1 block max-w-[16ch] text-[11px] font-normal leading-snug text-muted">{p.priceNote}</span>}
                   </th>
                 ))}
@@ -120,7 +120,7 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
             <tbody>
               {rows.map((r) => (
                 <tr key={r.label}>
-                  <th scope="row" className="sticky left-0 z-10 border-t border-line bg-bg py-3.5 pr-3 text-[13px] font-medium text-ink/90 sm:text-[15px]">
+                  <th scope="row" className="sticky left-0 z-10 border-t border-line bg-surface py-3.5 pr-3 text-[13px] font-medium text-text sm:text-[15px]">
                     {r.label}
                   </th>
                   {r.values.map((v, i) => {
@@ -128,8 +128,8 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
                     return (
                       <td
                         key={i}
-                        className={`border-t border-line px-3 py-3.5 text-center ${
-                          p && colOn(p.id, p.highlight) ? "border-x border-x-accent/50 bg-accent/[0.07]" : ""
+                        className={`border-t border-t-line px-3 py-3.5 text-center ${
+                          p && colOn(p.id, p.highlight) ? "border-x-2 border-x-ink" : "border-x-2 border-x-transparent"
                         }`}
                       >
                         <Cell v={v} />
@@ -139,11 +139,11 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
                 </tr>
               ))}
               <tr>
-                <td className="sticky left-0 z-10 bg-bg" />
+                <td className="sticky left-0 z-10 bg-surface" />
                 {pkgs.map((p) => (
                   <td
                     key={p.id}
-                    className={`rounded-b-2xl px-3 pb-4 pt-3 text-center ${colOn(p.id, p.highlight) ? "border-x border-b border-accent/50 bg-accent/[0.07]" : ""}`}
+                    className={`rounded-b-xl border-x-2 border-b-2 px-3 pb-4 pt-3 text-center ${colOn(p.id, p.highlight) ? "border-ink" : "border-transparent"}`}
                   >
                     <Link
                       href={`/order?service=${p.service}&package=${p.id}`}
@@ -160,15 +160,15 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
         </div>
 
         {/* Аль нь надад тохирох вэ? */}
-        <div className="mx-auto mt-14 max-w-3xl rounded-3xl border border-line bg-card p-6 sm:p-8">
+        <div className="card mx-auto mt-14 max-w-3xl p-6 sm:p-8">
           <h2 className="text-xl font-bold tracking-tight sm:text-2xl">Аль нь надад тохирох вэ?</h2>
           <p className="mt-1 text-sm text-muted">3 асуултад хариулбал хүснэгтэд тохирох багцыг тодруулна.</p>
           <ol className="mt-6 space-y-5">
             {questions.map((q, qi) =>
               qi <= answers.length ? (
                 <li key={`${tab}-${qi}`}>
-                  <p className="text-[15px] font-semibold">
-                    <span className="mr-2 text-accent">{qi + 1}.</span>
+                  <p className="text-[15px] font-semibold text-ink">
+                    <span className="mr-2 text-muted">{qi + 1}.</span>
                     {q.q}
                   </p>
                   <div className="mt-2.5 flex flex-wrap gap-2" role="group" aria-label={q.q}>
@@ -180,8 +180,8 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
                           type="button"
                           aria-pressed={on}
                           onClick={() => answer(qi, oi)}
-                          className={`min-h-[44px] rounded-xl border px-4 text-sm transition-colors ${
-                            on ? "border-accent bg-accent/15 font-semibold text-ink" : "border-line text-muted hover:border-muted hover:text-ink"
+                          className={`min-h-[44px] rounded-lg border px-4 text-sm transition-colors ${
+                            on ? "border-ink bg-accent-soft font-semibold text-ink" : "border-line text-text hover:border-ink hover:text-ink"
                           }`}
                         >
                           {o.label}
@@ -195,9 +195,9 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
           </ol>
           <div aria-live="polite">
             {picked && (
-              <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-accent/40 bg-accent/[0.08] p-5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="mt-6 flex flex-col gap-4 rounded-xl border border-ink bg-bg p-5 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-[15px]">
-                  Танд <span className="font-bold text-accent">{picked.name}</span> багц тохирох байх — {picked.tagline.toLowerCase()}.
+                  Танд <span className="font-bold text-ink">{picked.name}</span> багц тохирох байх — {picked.tagline.toLowerCase()}.
                 </p>
                 <div className="flex shrink-0 gap-2">
                   <button type="button" onClick={() => setAnswers([])} className="btn-ghost min-h-[44px] px-4 text-sm">

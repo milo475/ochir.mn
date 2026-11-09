@@ -68,20 +68,19 @@ export function DeliveryJourney() {
   return (
     <section aria-labelledby="journey-title" className="container-page mt-16 sm:mt-24">
       <Reveal className="max-w-2xl">
-        <p className="eyebrow">Хэрхэн ажилладаг</p>
-        <h2 id="journey-title" className="mt-3 text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">
+        <h2 id="journey-title" className="text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">
           Нэг захиалгын аялал
         </h2>
       </Reveal>
 
       <ol className="relative mt-12 grid gap-8 md:grid-cols-5 md:gap-4">
         {/* холбох шугам */}
-        <span className="absolute bottom-6 left-7 top-6 w-px bg-gradient-to-b from-accent via-accent/50 to-accent/10 md:bottom-auto md:left-[10%] md:right-[10%] md:top-7 md:h-px md:w-auto md:bg-gradient-to-r" aria-hidden="true" />
+        <span className="absolute bottom-6 left-7 top-6 w-px bg-line md:bottom-auto md:left-[10%] md:right-[10%] md:top-7 md:h-px md:w-auto" aria-hidden="true" />
         {steps.map((s, i) => (
-          <Reveal as="li" key={s.title} delay={i * 0.08} className="relative flex gap-5 md:flex-col md:items-center md:gap-4 md:text-center">
+          <Reveal as="li" key={s.title} className="relative flex gap-5 md:flex-col md:items-center md:gap-4 md:text-center">
             <span
-              className={`relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl border ${
-                i === 3 ? "border-accent bg-accent text-bg" : "border-line bg-card text-accent"
+              className={`relative grid h-14 w-14 shrink-0 place-items-center rounded-xl border ${
+                "border-line bg-surface text-ink"
               }`}
             >
               {s.icon}
@@ -97,7 +96,7 @@ export function DeliveryJourney() {
       </ol>
 
       <p className="mt-10 flex items-start gap-2 text-sm text-muted">
-        <svg className="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+        <svg className="mt-0.5 h-4 w-4 shrink-0 text-ink" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
           <circle cx="8" cy="8" r="6.5" />
           <path d="M8 7v4M8 4.8v.2" strokeLinecap="round" />
         </svg>

@@ -38,9 +38,8 @@ function Shape({ d }: { d: District }) {
     <g>
       <polygon
         points={s.pts.map((p) => p.join(",")).join(" ")}
-        fill={on ? "#FF6B2C" : "#1E2A44"}
+        className={on ? "fill-accent stroke-surface" : "fill-bg stroke-muted"}
         fillOpacity={on ? 0.85 : 1}
-        stroke={on ? "#0B1220" : "#9AA5B8"}
         strokeOpacity={on ? 1 : 0.5}
         strokeWidth={on ? 4 : 1.5}
         strokeDasharray={on ? undefined : "5 4"}
@@ -52,7 +51,7 @@ function Shape({ d }: { d: District }) {
         textAnchor="middle"
         fontSize={small ? 13 : 14}
         fontWeight={on ? 700 : 500}
-        fill={on ? "#0B1220" : "#9AA5B8"}
+        className={on ? "fill-ink" : "fill-muted"}
       >
         {d.name}
       </text>
@@ -64,11 +63,10 @@ export function CoverageMap() {
   const standard = districts.filter((d) => d.zone === "standard");
   const negotiable = districts.filter((d) => d.zone === "negotiable");
   return (
-    <section aria-labelledby="coverage-title" className="mt-16 bg-card py-16 sm:mt-24 sm:py-20">
+    <section aria-labelledby="coverage-title" className="mt-16 sm:mt-24">
       <div className="container-page grid items-center gap-10 lg:grid-cols-[1fr_1.7fr] lg:gap-14">
         <Reveal>
-          <p className="eyebrow">Хамрах хүрээ</p>
-          <h2 id="coverage-title" className="mt-3 text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">
+          <h2 id="coverage-title" className="text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">
             Хаана хүргэдэг вэ?
           </h2>
           <ul className="mt-8 space-y-4 text-[15px]">
@@ -80,7 +78,7 @@ export function CoverageMap() {
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="mt-1 h-4 w-4 shrink-0 rounded border border-dashed border-muted/70 bg-[#1E2A44]" aria-hidden="true" />
+              <span className="mt-1 h-4 w-4 shrink-0 rounded border border-dashed border-muted bg-surface" aria-hidden="true" />
               <span>
                 <span className="font-semibold">{coverageNote.negotiable}</span>
                 <span className="mt-0.5 block text-sm text-muted">Хуваарь, үнийг урьдчилан тохиролцоно.</span>
@@ -88,8 +86,8 @@ export function CoverageMap() {
             </li>
           </ul>
         </Reveal>
-        <Reveal delay={0.06} className="min-w-0">
-          <figure className="rounded-2xl border border-line bg-bg p-3 sm:p-5">
+        <Reveal className="min-w-0">
+          <figure className="card p-3 sm:p-5">
             <svg
               viewBox="20 20 760 330"
               className="h-auto w-full"
@@ -103,7 +101,7 @@ export function CoverageMap() {
                 if (!pa || !pb) return null;
                 const [x1, y1] = centroid(pa.pts);
                 const [x2, y2] = centroid(pb.pts);
-                return <line key={a + b} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#9AA5B8" strokeOpacity=".35" strokeDasharray="3 6" />;
+                return <line key={a + b} x1={x1} y1={y1} x2={x2} y2={y2} className="stroke-muted" strokeOpacity=".5" strokeDasharray="3 6" />;
               })}
               {[...negotiable, ...standard].map((d) => (
                 <Shape key={d.id} d={d} />

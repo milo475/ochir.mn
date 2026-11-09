@@ -150,7 +150,7 @@ export function OrderWizard() {
           <li key={label} className="relative px-1 py-3.5 text-center" aria-current={i === step ? "step" : undefined}>
             <span
               className={`mx-auto grid h-7 w-7 place-items-center rounded-full text-xs font-bold transition-colors ${
-                i < step ? "bg-accent text-bg" : i === step ? "border-2 border-accent text-accent" : "border border-line text-muted"
+                i < step ? "bg-accent text-accent-ink" : i === step ? "border-2 border-ink text-ink" : "border border-line text-muted"
               }`}
             >
               {i < step ? "✓" : i + 1}
@@ -191,11 +191,11 @@ export function OrderWizard() {
                       <label
                         key={s.slug}
                         className={`flex cursor-pointer items-start gap-4 rounded-xl border p-4 transition-colors ${
-                          on ? "border-accent bg-accent-soft" : "border-line hover:border-muted/50"
+                          on ? "border-ink bg-accent-soft" : "border-line hover:border-ink"
                         }`}
                       >
                         <input type="checkbox" className="peer sr-only" checked={on} onChange={() => toggleService(s.slug)} />
-                        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-lg ${on ? "bg-accent text-bg" : "bg-bg text-accent"}`}>
+                        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-lg ${on ? "bg-accent text-accent-ink" : "bg-bg text-ink"}`}>
                           <ServiceIcon slug={s.slug} className="h-5 w-5" />
                         </span>
                         <span className="min-w-0 flex-1">
@@ -204,7 +204,7 @@ export function OrderWizard() {
                         </span>
                         <span
                           className={`mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-md border text-[11px] font-bold peer-focus-visible:ring-2 peer-focus-visible:ring-accent ${
-                            on ? "border-accent bg-accent text-bg" : "border-muted/50"
+                            on ? "border-accent bg-accent text-accent-ink" : "border-muted/50"
                           }`}
                           aria-hidden="true"
                         >
@@ -230,7 +230,7 @@ export function OrderWizard() {
                     return (
                       <fieldset key={slug}>
                         <legend className="mb-3 flex items-center gap-2 text-sm font-semibold text-muted">
-                          <ServiceIcon slug={slug} className="h-4 w-4 text-accent" />
+                          <ServiceIcon slug={slug} className="h-4 w-4 text-ink" />
                           {svc.title}
                         </legend>
                         <div className="grid gap-3 sm:grid-cols-3">
@@ -240,7 +240,7 @@ export function OrderWizard() {
                               <label
                                 key={p.id}
                                 className={`relative flex cursor-pointer flex-col rounded-xl border p-4 transition-colors ${
-                                  on ? "border-accent bg-accent-soft" : "border-line hover:border-muted/50"
+                                  on ? "border-ink bg-accent-soft" : "border-line hover:border-ink"
                                 }`}
                               >
                                 <input
@@ -256,7 +256,7 @@ export function OrderWizard() {
                                 <span className="flex items-center justify-between gap-2">
                                   <span className="font-semibold">{p.name}</span>
                                   <span
-                                    className={`h-4 w-4 shrink-0 rounded-full border-2 peer-focus-visible:ring-2 ${on ? "border-accent bg-accent shadow-[inset_0_0_0_3px_#111A2E]" : "border-muted/50"}`}
+                                    className={`h-4 w-4 shrink-0 rounded-full border-2 peer-focus-visible:ring-2 ${on ? "border-accent bg-accent shadow-[inset_0_0_0_3px_rgb(var(--surface-rgb))]" : "border-muted/50"}`}
                                     aria-hidden="true"
                                   />
                                 </span>
@@ -264,12 +264,12 @@ export function OrderWizard() {
                                 <ul className="mt-3 space-y-1 text-[13px] leading-snug">
                                   {p.features.slice(0, 3).map((f) => (
                                     <li key={f} className="flex gap-1.5">
-                                      <span className="text-accent" aria-hidden="true">•</span>
+                                      <span className="text-muted" aria-hidden="true">•</span>
                                       {f}
                                     </li>
                                   ))}
                                 </ul>
-                                <span className="mt-3 text-xs font-semibold text-accent">{p.priceFrom ?? PRICE_PLACEHOLDER}</span>
+                                <span className="mt-3 text-xs font-semibold text-ink">{p.priceFrom ?? PRICE_PLACEHOLDER}</span>
                               </label>
                             );
                           })}
@@ -333,7 +333,7 @@ export function OrderWizard() {
                   {hasDelivery && <Row label="Өдрийн захиалга" onEdit={() => go(2)}>~{info.dailyOrders}</Row>}
                 </dl>
                 {errors.form && (
-                  <p role="alert" className="mt-4 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+                  <p role="alert" className="mt-4 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-700">
                     {errors.form}
                   </p>
                 )}
@@ -380,7 +380,7 @@ function Field({ label, id, error, children }: { label: string; id: string; erro
 function FieldError({ msg, id }: { msg?: string; id?: string }) {
   if (!msg) return null;
   return (
-    <p id={id} role="alert" className="mt-2 text-sm text-red-300">
+    <p id={id} role="alert" className="mt-2 text-sm text-red-700">
       {msg}
     </p>
   );
@@ -391,7 +391,7 @@ function Row({ label, children, onEdit }: { label: string; children: React.React
     <div className="flex items-start gap-3 px-4 py-3.5">
       <dt className="w-28 shrink-0 text-sm text-muted sm:w-36">{label}</dt>
       <dd className="min-w-0 flex-1 text-[15px] font-medium">{children}</dd>
-      <button type="button" onClick={onEdit} className="text-xs font-semibold text-accent hover:underline">
+      <button type="button" onClick={onEdit} className="text-xs link">
         Засах
       </button>
     </div>

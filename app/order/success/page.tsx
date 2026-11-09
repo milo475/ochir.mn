@@ -12,8 +12,8 @@ export default function SuccessPage({ searchParams }: { searchParams: { id?: str
   return (
     <div className="container-page grid min-h-[70vh] place-items-center py-16">
       <div className="card w-full max-w-lg p-8 text-center sm:p-10">
-        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-accent-soft">
-          <svg className="h-8 w-8 text-accent" viewBox="0 0 24 24" aria-hidden="true">
+        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-accent text-accent-ink">
+          <svg className="h-8 w-8" viewBox="0 0 24 24" aria-hidden="true">
             <path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
@@ -23,7 +23,7 @@ export default function SuccessPage({ searchParams }: { searchParams: { id?: str
         </p>
         {ref && (
           <p className="mt-6 rounded-xl border border-line bg-bg px-4 py-3 text-sm">
-            Захиалгын дугаар: <span className="font-mono font-semibold text-accent">#{ref}</span>
+            Захиалгын дугаар: <span className="font-mono font-semibold text-ink">#{ref}</span>
           </p>
         )}
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">

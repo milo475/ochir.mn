@@ -25,25 +25,24 @@ const kinds: { name: string; time: string; lead: string; items: string[] }[] = [
 
 export function WhatWeBuild() {
   return (
-    <section aria-labelledby="build-title" className="mt-16 bg-card py-16 sm:mt-24 sm:py-20">
+    <section aria-labelledby="build-title" className="mt-16 sm:mt-24">
       <div className="container-page">
         <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_1fr]">
           <Reveal>
-            <p className="eyebrow">Юу хийж өгдөг вэ</p>
-            <h2 id="build-title" className="mt-3 text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">
+            <h2 id="build-title" className="text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">
               3 төрөл — юу нь багтдаг вэ?
             </h2>
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted sm:text-base">
               Нэмэлт төлбөргүйгээр багтдаг зүйлсийг жагсаав. Үүнээс гадна хэрэгтэй зүйлээ хэлбэл тооцоолж өгнө.
             </p>
           </Reveal>
-          <Reveal delay={0.06} className="min-w-0 rounded-2xl border border-line bg-bg p-5">
+          <Reveal className="card min-w-0 p-5">
             <ShopMock />
           </Reveal>
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {kinds.map((k, i) => (
-            <Reveal key={k.name} delay={i * 0.06} className="min-w-0 rounded-2xl border border-line bg-bg p-6">
+          {kinds.map((k) => (
+            <Reveal key={k.name} className="card min-w-0 p-6">
               <div className="flex items-baseline justify-between gap-3">
                 <h3 className="text-xl font-bold">{k.name}</h3>
                 <span className="whitespace-nowrap text-xs text-muted">{k.time}</span>
