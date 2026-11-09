@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { InstagramIcon, MessengerIcon } from "./SocialIcons";
 import { isActive, mainNav as nav } from "@/lib/nav";
-import { instagramHandle, instagramUrl, messengerUrl, phone, phoneHref } from "@/lib/site";
+import { instagramDmUrl, instagramHandle, messengerUrl, phone, phoneHref } from "@/lib/site";
 
 export function Footer() {
   const pathname = usePathname();
@@ -33,7 +33,7 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a className="inline-flex items-center gap-2 hover:text-ink hover:underline" href={instagramUrl} target="_blank" rel="noopener noreferrer">
+              <a className="inline-flex items-center gap-2 hover:text-ink hover:underline" href={instagramDmUrl} target="_blank" rel="noopener noreferrer">
                 <InstagramIcon /> {instagramHandle}
               </a>
             </li>
