@@ -11,6 +11,7 @@ import {
   type CompareCell,
   type ServiceSlug,
 } from "@/data/packages";
+import { PlanCards } from "@/components/PlanCards";
 import { ServiceIcon } from "@/components/ServiceIcon";
 
 const TAB_LABEL: Record<ServiceSlug, string> = { delivery: "Хүргэлт", web: "Вэб & систем", automation: "Автоматжуулалт" };
@@ -88,8 +89,18 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
         })}
       </div>
 
-      <div id="pricing-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="mt-10">
-        <div className="card overflow-x-auto p-3 sm:p-5">
+      <div id="pricing-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="mt-12">
+        <PlanCards service={tab} />
+
+        {/* Дэлгэрэнгүй ✓/— хүснэгт — анхдагчаар хаалттай */}
+        <details className="group mt-12 rounded-xl border border-line bg-surface">
+          <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-4 px-5 text-[15px] font-semibold text-ink [&::-webkit-details-marker]:hidden">
+            Дэлгэрэнгүй харьцуулах
+            <svg className="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </summary>
+        <div className="overflow-x-auto border-t border-line p-3 sm:p-5">
           <table className="w-full min-w-[500px] border-separate border-spacing-0 text-left">
             <caption className="sr-only">{TAB_LABEL[tab]} — багцуудын харьцуулалт</caption>
             <thead>
@@ -146,7 +157,7 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
                     className={`rounded-b-xl border-x-2 border-b-2 px-3 pb-4 pt-3 text-center ${colOn(p.id, p.highlight) ? "border-ink" : "border-transparent"}`}
                   >
                     <Link
-                      href={`/order?service=${p.service}&package=${p.id}`}
+                      href={`/order?service=${p.service}&plan=${p.id}`}
                       className={`${colOn(p.id, p.highlight) ? "btn-primary" : "btn-ghost"} min-h-[44px] w-full px-3 text-[13px] sm:text-sm`}
                       aria-label={`${p.name} багцаар захиалах`}
                     >
@@ -158,11 +169,12 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
             </tbody>
           </table>
         </div>
+        </details>
 
         {/* Аль нь надад тохирох вэ? */}
         <div className="card mx-auto mt-14 max-w-3xl p-6 sm:p-8">
           <h2 className="text-xl font-bold tracking-tight sm:text-2xl">Аль нь надад тохирох вэ?</h2>
-          <p className="mt-1 text-sm text-muted">3 асуултад хариулбал хүснэгтэд тохирох багцыг тодруулна.</p>
+          <p className="mt-1 text-sm text-muted">3 асуултад хариулбал танд тохирох багцыг санал болгоно.</p>
           <ol className="mt-6 space-y-5">
             {questions.map((q, qi) =>
               qi <= answers.length ? (
@@ -203,7 +215,7 @@ export function PricingTabs({ initial }: { initial: ServiceSlug }) {
                   <button type="button" onClick={() => setAnswers([])} className="btn-ghost min-h-[44px] px-4 text-sm">
                     Дахин
                   </button>
-                  <Link href={`/order?service=${picked.service}&package=${picked.id}`} className="btn-primary min-h-[44px] px-4 text-sm">
+                  <Link href={`/order?service=${picked.service}&plan=${picked.id}`} className="btn-primary min-h-[44px] px-4 text-sm">
                     Захиалах
                   </Link>
                 </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { TalkEnd } from "@/components/TalkEnd";
-import { PackageMini } from "@/components/PackageMini";
+import { PlansSection } from "@/components/PlansSection";
 import { ServiceFaq } from "@/components/ServiceFaq";
 import { ChatDemo } from "@/components/automation/ChatDemo";
 import { DoesDoesnt } from "@/components/automation/DoesDoesnt";
@@ -42,17 +42,18 @@ export default function AutomationPage() {
             <Link href="/order?service=automation" className="btn-primary">
               Чатбот захиалах
             </Link>
-            <Link href="/pricing?tab=automation" className="btn-ghost">
-              Багц харьцуулах
-            </Link>
+            <a href="#plans" className="btn-ghost">
+              Багц үзэх
+            </a>
           </div>
         </div>
       </section>
 
+      <PlansSection service="automation" />
+
       <Integrations />
       <DoesDoesnt />
       <SetupNeeds />
-      <PackageMini service="automation" title="Автоматжуулалтын багц" />
       <ServiceFaq category="automation" title="Чатботын асуулт" />
       <TalkEnd text="Хуудасныхаа нэрийг бичээд илгээ — 24 цагийн дотор холбогдоно." href="/order?service=automation" />
     </>

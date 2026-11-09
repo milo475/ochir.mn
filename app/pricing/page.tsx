@@ -26,7 +26,7 @@ export default function PricingPage({ searchParams }: { searchParams: { tab?: st
               Хүргэлт бүр 6 000₮-с. Сарын тоо хэмжээнээс хамаарч багцын үнэ буурна.
             </p>
           </div>
-          <div className="mx-auto max-w-4xl">
+          <div className="mx-auto max-w-5xl">
             <PricingTabs key={initial} initial={initial} />
           </div>
         </div>

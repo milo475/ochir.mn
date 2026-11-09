@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { PackageMini } from "@/components/PackageMini";
+import { PlansSection } from "@/components/PlansSection";
 import { ServiceFaq } from "@/components/ServiceFaq";
 import { CoverageMap } from "@/components/delivery/CoverageMap";
 import { DeliveryJourney } from "@/components/delivery/DeliveryJourney";
@@ -38,9 +38,9 @@ export default function DeliveryPage() {
                 <Link href="/order?service=delivery" className="btn-primary">
                   Хүргэлт захиалах
                 </Link>
-                <Link href="/pricing?tab=delivery" className="btn-ghost">
-                  Багц харьцуулах
-                </Link>
+                <a href="#plans" className="btn-ghost">
+                  Багц үзэх
+                </a>
               </div>
             </div>
             <div className="canvas p-2 sm:p-4">
@@ -50,10 +50,11 @@ export default function DeliveryPage() {
         </div>
       </section>
 
+      <PlansSection service="delivery" />
+
       <DeliveryJourney />
       <CoverageMap />
       <ReportSample />
-      <PackageMini service="delivery" title="Хүргэлтийн багц" />
       <ServiceFaq category="delivery" title="Хүргэлтийн асуулт" />
       <TrialCard />
     </>

@@ -44,11 +44,11 @@ export function OrderWizard() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const firstRender = useRef(true);
 
-  // ?service=delivery&package=delivery-growth — багцын картаас ирсэн бол урьдчилан сонгоно
+  // ?service=delivery&plan=delivery-growth (хуучин: &package=) — багцын картаас ирсэн бол урьдчилан сонгоно
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const svc = q.get("service");
-    const pkg = q.get("package");
+    const pkg = q.get("plan") ?? q.get("package");
     if (svc && (serviceSlugs as string[]).includes(svc)) {
       const slug = svc as ServiceSlug;
       setSelected([slug]);

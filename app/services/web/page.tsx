@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { TalkEnd } from "@/components/TalkEnd";
-import { PackageMini } from "@/components/PackageMini";
+import { PlansSection } from "@/components/PlansSection";
 import { ServiceFaq } from "@/components/ServiceFaq";
 import { CareCard } from "@/components/web/CareCard";
 import { IsometricStudio } from "@/components/web/IsometricStudio";
@@ -46,8 +46,8 @@ export default function WebPage() {
                 <Link href="/order?service=web" className="btn-primary">
                   Сайт захиалах
                 </Link>
-                <a href="#live" className="btn-ghost">
-                  Жишээ ажлууд
+                <a href="#plans" className="btn-ghost">
+                  Багц үзэх
                 </a>
               </div>
             </div>
@@ -55,11 +55,12 @@ export default function WebPage() {
         </div>
       </section>
 
+      <PlansSection service="web" />
+
       <WorkGrid />
       <WhatWeBuild />
       <WebProcess />
       <CareCard />
-      <PackageMini service="web" title="Вэбийн багц" />
       <ServiceFaq category="web" title="Вэбийн асуулт" />
       <TalkEnd text="Хэрэгцээгээ бичээд илгээ — 24 цагийн дотор үнийн санал ирнэ." href="/order?service=web" />
     </>

@@ -1,13 +1,30 @@
 import Link from "next/link";
+import { unstable_noStore as noStore } from "next/cache";
 import { Reveal } from "@/components/Reveal";
+import { prisma } from "@/lib/prisma";
+
+const TRIAL_SLOTS = 10;
+
+/** Үлдсэн суудал = 10 − (хүргэлт сонгосон, хаагдаагүй захиалга). DB алдаатай бол null */
+async function trialLeft(): Promise<number | null> {
+  noStore();
+  try {
+    const taken = await prisma.order.count({ where: { services: { has: "delivery" }, status: { not: "CLOSED" } } });
+    return Math.max(0, TRIAL_SLOTS - taken);
+  } catch {
+    return null;
+  }
+}
 
 /** 7 хоногийн үнэгүй туршилтын санал — энгийн surface карт, улбар шар зөвхөн товчин дээр */
-export function TrialCard() {
+export async function TrialCard() {
+  const left = await trialLeft();
+  const over = left === 0;
   return (
     <section aria-labelledby="trial-title" className="container-page mt-16 sm:mt-24">
       <Reveal className="flex flex-col gap-6 rounded-2xl border border-line bg-surface p-6 sm:p-10 md:flex-row md:items-center md:justify-between">
         <div className="max-w-xl">
-          <p className="text-sm text-muted">Эхний 10 дэлгүүрт</p>
+          <p className="text-sm text-muted">Эхний {TRIAL_SLOTS} дэлгүүрт</p>
           <h2 id="trial-title" className="mt-2 text-[24px] font-bold leading-tight tracking-tight text-ink sm:text-[28px]">
             7 хоногийн үнэгүй туршилт
           </h2>
@@ -15,9 +32,13 @@ export function TrialCard() {
         </div>
         <div className="flex shrink-0 flex-col items-start gap-2 md:items-center">
           <Link href="/order?service=delivery" className="btn-primary">
-            Туршилтад бүртгүүлэх →
+            {over ? "Туршилт дууссан — ердийн багцаар бүртгүүлнэ үү" : "Туршилтад бүртгүүлэх →"}
           </Link>
-          <p className="text-xs text-muted">Үлдсэн: 10/10</p>
+          {left !== null && !over && (
+            <p className="text-xs text-muted">
+              Үлдсэн: {left}/{TRIAL_SLOTS}
+            </p>
+          )}
         </div>
       </Reveal>
     </section>
