@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { Cta } from "@/components/Cta";
+import { TalkEnd } from "@/components/TalkEnd";
 import { PackageMini } from "@/components/PackageMini";
 import { ServiceFaq } from "@/components/ServiceFaq";
 import { ChatDemo } from "@/components/automation/ChatDemo";
@@ -54,7 +54,7 @@ export default function AutomationPage() {
       <SetupNeeds />
       <PackageMini service="automation" title="Автоматжуулалтын багц" />
       <ServiceFaq category="automation" title="Чатботын асуулт" />
-      <Cta title="Өнөө шөнөөс эхлээд чатаа даатга" text="Хуудасныхаа нэрийг бичээд илгээ — 24 цагийн дотор холбогдоно." href="/order?service=automation" />
+      <TalkEnd text="Хуудасныхаа нэрийг бичээд илгээ — 24 цагийн дотор холбогдоно." href="/order?service=automation" />
     </>
   );
 }

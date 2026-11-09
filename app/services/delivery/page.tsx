@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { Cta } from "@/components/Cta";
 import { PackageMini } from "@/components/PackageMini";
 import { ServiceFaq } from "@/components/ServiceFaq";
 import { CoverageMap } from "@/components/delivery/CoverageMap";
 import { DeliveryJourney } from "@/components/delivery/DeliveryJourney";
 import { IsometricDelivery } from "@/components/delivery/IsometricDelivery";
 import { ReportSample } from "@/components/delivery/ReportSample";
+import { TrialCard } from "@/components/TrialCard";
 
 const title = "Хүргэлтийн үйлчилгээ";
 const description =
@@ -55,7 +55,7 @@ export default function DeliveryPage() {
       <ReportSample />
       <PackageMini service="delivery" title="Хүргэлтийн багц" />
       <ServiceFaq category="delivery" title="Хүргэлтийн асуулт" />
-      <Cta title="Маргаашийн захиалгаа бидэнд даатга" text="Захиалга илгээгээд 24 цагийн дотор холбогдоно." href="/order?service=delivery" />
+      <TrialCard />
     </>
   );
 }

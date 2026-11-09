@@ -1,6 +1,7 @@
 import { Hero } from "@/components/home/Hero";
 import { Familiar } from "@/components/home/Familiar";
 import { ServiceDoors } from "@/components/home/ServiceDoors";
+import { TrialCard } from "@/components/TrialCard";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export default function HomePage() {
@@ -18,6 +19,7 @@ export default function HomePage() {
       <Hero />
       <Familiar />
       <ServiceDoors />
+      <TrialCard />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { Cta } from "@/components/Cta";
+import { TalkEnd } from "@/components/TalkEnd";
 import { PackageMini } from "@/components/PackageMini";
 import { ServiceFaq } from "@/components/ServiceFaq";
 import { CareCard } from "@/components/web/CareCard";
@@ -61,7 +61,7 @@ export default function WebPage() {
       <CareCard />
       <PackageMini service="web" title="Вэбийн багц" />
       <ServiceFaq category="web" title="Вэбийн асуулт" />
-      <Cta title="Сайтаа 3 хоногт нээе" text="Хэрэгцээгээ бичээд илгээ — 24 цагийн дотор үнийн санал ирнэ." href="/order?service=web" />
+      <TalkEnd text="Хэрэгцээгээ бичээд илгээ — 24 цагийн дотор үнийн санал ирнэ." href="/order?service=web" />
     </>
   );
 }
