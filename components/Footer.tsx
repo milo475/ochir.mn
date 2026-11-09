@@ -10,8 +10,8 @@ export function Footer() {
   const pathname = usePathname();
   if (pathname?.startsWith("/admin")) return null;
   return (
-    <footer className="mt-24 border-t border-line bg-bg">
-      <div className="container-page grid gap-10 py-12 sm:grid-cols-2">
+    <footer className="mt-16 border-t border-line bg-bg sm:mt-24">
+      <div className="container-page grid grid-cols-2 gap-6 py-8 sm:gap-10 sm:py-12">
         <div>
           <p className="text-sm font-semibold text-ink">Цэс</p>
           <ul className="mt-3 space-y-2 text-sm text-text">
@@ -48,7 +48,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="container-page border-t border-line py-5 text-xs text-muted">© {new Date().getFullYear()} Ochir</div>
+      <div className="container-page border-t border-line py-4 text-xs text-muted sm:py-5">© {new Date().getFullYear()} Ochir</div>
     </footer>
   );
 }
