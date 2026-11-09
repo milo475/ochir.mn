@@ -1,22 +1,24 @@
 import Link from "next/link";
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { Reveal } from "@/components/Reveal";
 import { prisma } from "@/lib/prisma";
 
 const TRIAL_SLOTS = 10;
 
-/** Үлдсэн суудал = 10 − (хүргэлт сонгосон, хаагдаагүй захиалга). DB алдаатай бол null */
-async function trialLeft(): Promise<number | null> {
-  noStore();
-  try {
-    const taken = await prisma.order.count({ where: { services: { has: "delivery" }, status: { not: "CLOSED" } } });
-    return Math.max(0, TRIAL_SLOTS - taken);
-  } catch {
-    return null;
-  }
-}
+/** Үлдсэн суудал = 10 − (хүргэлт сонгосон, хаагдаагүй захиалга). 60 сек кэшлэнэ; DB алдаатай бол null */
+const trialLeft = unstable_cache(
+  async (): Promise<number | null> => {
+    try {
+      const taken = await prisma.order.count({ where: { services: { has: "delivery" }, status: { not: "CLOSED" } } });
+      return Math.max(0, TRIAL_SLOTS - taken);
+    } catch {
+      return null;
+    }
+  },
+  ["trial-left"],
+  { revalidate: 60 },
+);
 
-/** 7 хоногийн үнэгүй туршилтын санал — энгийн surface карт, улбар шар зөвхөн товчин дээр */
 export async function TrialCard() {
   const left = await trialLeft();
   const over = left === 0;

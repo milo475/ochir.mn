@@ -51,6 +51,7 @@ export function PlanCards({ service }: { service: ServiceSlug }) {
                 <span className={`font-bold leading-none tracking-tight text-ink ${price.quote ? "text-[24px]" : "text-[36px]"}`}>{price.amount}</span>
                 <span className="text-sm text-muted">{price.unit}</span>
               </p>
+              {p.priceNote && <p className="mt-2 text-xs text-muted">{p.priceNote}</p>}
 
               <Link
                 href={`/order?service=${p.service}&plan=${p.id}`}

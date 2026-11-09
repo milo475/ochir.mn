@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   openGraph: { title: `${title} | Ochir`, description, url: "/services/delivery" },
 };
 
+/** TrialCard-ын "Үлдсэн" тоолуур 60 сек тутам шинэчлэгдэнэ (ISR) */
+export const revalidate = 60;
+
 export default function DeliveryPage() {
   return (
     <>

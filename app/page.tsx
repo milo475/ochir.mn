@@ -4,6 +4,9 @@ import { ServiceDoors } from "@/components/home/ServiceDoors";
 import { TrialCard } from "@/components/TrialCard";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
+/** TrialCard-ын "Үлдсэн" тоолуур 60 сек тутам шинэчлэгдэнэ (ISR) */
+export const revalidate = 60;
+
 export default function HomePage() {
   const jsonLd = {
     "@context": "https://schema.org",
