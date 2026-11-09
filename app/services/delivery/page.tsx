@@ -7,7 +7,7 @@ import { CoverageMap } from "@/components/delivery/CoverageMap";
 import { DeliveryJourney } from "@/components/delivery/DeliveryJourney";
 import { IsometricDelivery } from "@/components/delivery/IsometricDelivery";
 import { ReportSample } from "@/components/delivery/ReportSample";
-import { TrialCard } from "@/components/TrialCard";
+import { StartTerms } from "@/components/StartTerms";
 
 const title = "Хүргэлтийн үйлчилгээ";
 const description =
@@ -19,9 +19,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/services/delivery" },
   openGraph: { title: `${title} | Ochir`, description, url: "/services/delivery" },
 };
-
-/** TrialCard-ын "Үлдсэн" тоолуур 60 сек тутам шинэчлэгдэнэ (ISR) */
-export const revalidate = 60;
 
 export default function DeliveryPage() {
   return (
@@ -59,7 +56,7 @@ export default function DeliveryPage() {
       <CoverageMap />
       <ReportSample />
       <ServiceFaq category="delivery" title="Хүргэлтийн асуулт" />
-      <TrialCard />
+      <StartTerms />
     </>
   );
 }

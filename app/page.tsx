@@ -1,11 +1,8 @@
 import { Hero } from "@/components/home/Hero";
 import { Familiar } from "@/components/home/Familiar";
 import { ServiceDoors } from "@/components/home/ServiceDoors";
-import { TrialCard } from "@/components/TrialCard";
+import { StartTerms } from "@/components/StartTerms";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
-
-/** TrialCard-ын "Үлдсэн" тоолуур 60 сек тутам шинэчлэгдэнэ (ISR) */
-export const revalidate = 60;
 
 export default function HomePage() {
   const jsonLd = {
@@ -22,7 +19,7 @@ export default function HomePage() {
       <Hero />
       <Familiar />
       <ServiceDoors />
-      <TrialCard />
+      <StartTerms />
     </>
   );
 }
