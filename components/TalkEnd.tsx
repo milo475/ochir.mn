@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
-import { MessengerIcon } from "@/components/SocialIcons";
-import { messengerUrl } from "@/lib/site";
+import { InstagramIcon, MessengerIcon } from "@/components/SocialIcons";
+import { instagramDmUrl, messengerUrl } from "@/lib/site";
 
 /** Хуудасны энгийн төгсгөл — блоггүй, дэвсгэргүй, төвд */
 export function TalkEnd({ text, href }: { text: string; href: string }) {
@@ -16,9 +16,13 @@ export function TalkEnd({ text, href }: { text: string; href: string }) {
           <Link href={href} className="btn-primary">
             Захиалга өгөх
           </Link>
-          <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+          <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost sm:w-60">
             <MessengerIcon className="h-[18px] w-[18px]" />
-            Messenger
+            Messenger-ээр бичих
+          </a>
+          <a href={instagramDmUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost sm:w-60">
+            <InstagramIcon className="h-[18px] w-[18px]" />
+            Instagram-аар бичих
           </a>
         </div>
       </Reveal>

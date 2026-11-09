@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { instagramDmUrl, messengerUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Захиалга хүлээн авлаа",
@@ -20,6 +21,16 @@ export default function SuccessPage({ searchParams }: { searchParams: { id?: str
         <h1 className="mt-6 text-2xl font-bold sm:text-3xl">Захиалга хүлээн авлаа!</h1>
         <p className="mt-3 text-[15px] leading-relaxed text-muted">
           Баярлалаа. Манай баг 24 цагийн дотор таны утсаар холбогдож, үнийн санал болон дараагийн алхмуудыг танилцуулна.
+        </p>
+        <p className="mt-3 text-sm text-muted">
+          Яаралтай бол:{" "}
+          <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="link">
+            Messenger
+          </a>{" "}
+          ·{" "}
+          <a href={instagramDmUrl} target="_blank" rel="noopener noreferrer" className="link">
+            Instagram
+          </a>
         </p>
         {ref && (
           <p className="mt-6 rounded-xl border border-line bg-bg px-4 py-3 text-sm">

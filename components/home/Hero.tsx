@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { IsometricCity } from "@/components/IsometricCity";
-import { MessengerIcon } from "@/components/SocialIcons";
-import { messengerUrl } from "@/lib/site";
+import { InstagramIcon, MessengerIcon } from "@/components/SocialIcons";
+import { instagramDmUrl, messengerUrl } from "@/lib/site";
 
 export function Hero() {
   return (
@@ -23,9 +23,13 @@ export function Hero() {
                 <path d="M3 8h10m-4-4 4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
-            <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost sm:w-60">
               <MessengerIcon className="h-[18px] w-[18px]" />
               Messenger-ээр бичих
+            </a>
+            <a href={instagramDmUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost sm:w-60">
+              <InstagramIcon className="h-[18px] w-[18px]" />
+              Instagram-аар бичих
             </a>
           </div>
           <p className="mt-6 text-sm text-muted">Улаанбаатар · Instagram, Facebook дэлгүүрүүдэд зориулав</p>
