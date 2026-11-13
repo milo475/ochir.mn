@@ -59,7 +59,7 @@ const steps: { title: string; text: React.ReactNode; who: string; icon: React.Re
   },
   {
     title: "Тайланд орно",
-    text: "Өдөр эсвэл 7 хоногоор нэгтгэнэ.",
+    text: "7 хоног бүр, Баасан гарагт нэгтгэнэ.",
     who: "Та",
     icon: (
       <svg viewBox="0 0 32 32" className="h-7 w-7" aria-hidden="true">
