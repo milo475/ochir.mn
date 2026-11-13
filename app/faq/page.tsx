@@ -37,7 +37,7 @@ export default function FaqPage() {
       <section className="container-page mt-16 sm:mt-24">
         <div className="flex flex-col items-center gap-5 card px-6 py-10 text-center sm:py-12">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Хариулт олдсонгүй юу?</h2>
-          <p className="max-w-md text-[15px] text-muted">Асуултаа Messenger эсвэл Instagram-аар бичээрэй — өдөр бүр 10–20 цагт чатаар хариулна.</p>
+          <p className="max-w-md text-[15px] text-muted">Асуултаа бичээрэй — Messenger, Instagram чат 24/7 хариулна.</p>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-center">
             <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="btn-primary sm:w-60">
               <MessengerIcon className="h-[18px] w-[18px]" />
